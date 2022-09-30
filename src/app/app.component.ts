@@ -1,4 +1,4 @@
-import { CdkDragDrop, moveItemInArray, transferArrayItem, copyArrayItem, CdkDragMove } from '@angular/cdk/drag-drop';
+import { CdkDragMove } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
@@ -7,82 +7,84 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    @ViewChild('dropZone', { read: ElementRef, static: true }) dropZone!: ElementRef;
+    @ViewChild('layoutDropZone', { read: ElementRef, static: true }) layoutDropZone!: ElementRef;
 
-    menu: Array<any> = [];
-    table: Array<any> = [];
-    _pointerPosition: any;
-    _shiftX: any;
-    _shiftY: any;
-    transferringItem: any| undefined = undefined;
-    block1: any = {};
+    listItems: Array<any> = [
+        {
+            name: "Cell block 1",
+            image: "assets/block1.jpg",
+            alt: "Empty cell block"
+        },
+        {
+            name: "Cell block 2",
+            image: "assets/block2.jpg",
+            alt: "Empty cell block"
+        },
+        {
+            name: "Cell block 3",
+            image: "assets/block3.jpg",
+            alt: "Empty cell block"
+        },
+        {
+            name: "Cell block 4",
+            image: "assets/block4.jpg",
+            alt: "Empty cell block"
+        }
+    ];
+    layoutItems: Array<any> = [];
+
+    pointerPosition: any;
+    pointerShiftX: any;
+    pointerShiftY: any;
+    draggingItem: any| undefined = undefined;
 
     moved(event: CdkDragMove) {
-
-        const fromLeftOfDraggedElement = event.pointerPosition.x - event.source.element.nativeElement.getBoundingClientRect().left;
-        const fromTopOfDraggedElement = event.pointerPosition.y - event.source.element.nativeElement.getBoundingClientRect().top;
-
-        const xRelativeToParent = event.pointerPosition.x - fromLeftOfDraggedElement - this.dropZone.nativeElement.getBoundingClientRect().left;
-        const yRelativeToParent = event.pointerPosition.y - fromTopOfDraggedElement - this.dropZone.nativeElement.getBoundingClientRect().top;
-
-        this._pointerPosition = { x: xRelativeToParent, y: yRelativeToParent };
-
-        this._pointerPosition = event.pointerPosition;
+        this.pointerPosition = event.pointerPosition;
     }
 
     onMouseDown(event: any, element: any) {
-        this._shiftX = event.clientX - element.getBoundingClientRect().left;
-        this._shiftY = event.clientY - element.getBoundingClientRect().top;
+        this.pointerShiftX = event.clientX - element.getBoundingClientRect().left;
+        this.pointerShiftY = event.clientY - element.getBoundingClientRect().top;
     }
 
     dropOnLayout(event: any) {
-        let positionX = this._pointerPosition.x - this._shiftX;
-        let positionY = this._pointerPosition.y - this._shiftY;
+        let positionX = this.pointerPosition.x - this.pointerShiftX;
+        let positionY = this.pointerPosition.y - this.pointerShiftY;
 
-        if (event.previousContainer.id == "menu-drop-list") {
-            event.item.data.top = (positionY - this.dropZone.nativeElement.getBoundingClientRect().top) + 'px'
-            event.item.data.left = (positionX - this.dropZone.nativeElement.getBoundingClientRect().left) + 'px'
-            this.addField({ ...event.item.data }, event.currentIndex);
+        const top = (positionY - this.layoutDropZone.nativeElement.getBoundingClientRect().top) + 'px';
+        const left = (positionX - this.layoutDropZone.nativeElement.getBoundingClientRect().left) + 'px';
+
+        if (event.previousContainer.id == "items-drop-list") {
+            event.item.data.top = top;
+            event.item.data.left = left;
+            this.addItem({ ...event.item.data }, event.currentIndex);
         } else if (event.previousContainer === event.container) {
-            let item = this.table.find(t => t == event.item.data)
-            item.top = (positionY - this.dropZone.nativeElement.getBoundingClientRect().top) + 'px'
-            item.left = (positionX - this.dropZone.nativeElement.getBoundingClientRect().left) + 'px'
+            let item = this.layoutItems.find(t => t == event.item.data);
+            item.top = top;
+            item.left = left;
         }
 
-        this.transferringItem = undefined;
+        this.draggingItem = undefined;
     }
 
-    dropOnMenu(event: any) {
-        if (event.previousContainer.id == "menu-drop-list") {
+    dropOnItemsList(event: any) {
+        if (event.previousContainer.id == "items-drop-list") {
             return;
         }
 
-        let index = this.table.findIndex(t => t == event.item.data);
-        this.table.splice(index, 1);
+        let index = this.layoutItems.findIndex(item => item == event.item.data);
+        this.layoutItems.splice(index, 1);
     }
 
-    addField(fieldType: string, index: number) {
-        this.table.splice(index, 0, fieldType)
+    addItem(item: any, index: number) {
+        this.layoutItems.splice(index, 0, item)
     }
 
-    exited(event: any) {
-        const currentIdx = event.container.data.findIndex(
-            (f: any) => f.id === event.item.data.id
-        );
-        this.menu.splice(currentIdx + 1, 0, {
-            ...event.item.data,
-            temp: true,
-        });
-    }
-    entered() {
-        this.menu = this.menu.filter((f) => !f.temp);
+    dragStarted(element: any) {
+        this.draggingItem = element;
     }
 
-    dragStarted(event: any, element: any) {
-        this.transferringItem = element;
-    }
-
-    dragStopped(event: any) {
-        this.transferringItem = undefined;
+    dragStopped() {
+        this.draggingItem = undefined;
     }
 }

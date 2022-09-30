@@ -1,17 +1,22 @@
 .designer {
     padding: 10px;
 
-    .title {
-        margin-bottom: 0;
-    }
+    .header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
 
-    .options {
-        text-align: center;
-        margin-bottom: 20px;
+        .title {
+            margin-bottom: 0;
+        }
 
-        .option {
-            margin-left: 5px;
-            margin-right: 5px;
+        .options {
+            margin-left: auto;
+
+            .option {
+                margin-left: 5px;
+                margin-right: 5px;
+            }
         }
     }
 
@@ -23,7 +28,8 @@
             width: 80%;
 
             .layout {
-                height: 600px;
+                min-height: 600px;
+                height: 100%;
                 position: relative;
                 border: 1px solid silver;
 
@@ -45,9 +51,7 @@
             width: 20%;
             display: flex;
             flex-direction: column;
-            padding: 0 10px;
-
-
+            padding: 0 0 0 10px
         }
     }
 }
@@ -60,6 +64,10 @@
 
     .item-title {
         text-align: center;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
     }
 }
 

@@ -1,38 +1,40 @@
 <div class="designer">
-    <h2 class="title">Designer</h2>
-    <div class="options">
-        <input class="option" type="number" placeholder="height">
-        <input class="option" type="number" placeholder="width">
+    <div class="header">
+        <h2 class="title">Designer</h2>
+        <div class="options">
+            <input class="option" type="number" placeholder="height">
+            <input class="option" type="number" placeholder="width">
+        </div>
     </div>
 
     <div class="tray">
         <div class="layout-wrapper">
-            <div class="layout" cdkDropList #tableList="cdkDropList" [cdkDropListData]="table"
-                (cdkDropListDropped)="dropOnLayout($event)" #dropZone [cdkDropListConnectedTo]="[menuList]">
-                <div class="item layout-item" *ngFor="let item of table; let idx = index" cdkDragBoundary=".tray" cdkDrag [cdkDragData]="item" (cdkDragMoved)="moved($event)"
-                    style="position:absolute;z-index:i" [style.top]="item.top" [style.left]="item.left" (mousedown)="onMouseDown($event, thisItem)" #thisItem>
-                    <img class="item-image" src="assets/block1.jpg" alt="block1">
+            <div class="layout" #layoutDropZone cdkDropList (cdkDropListDropped)="dropOnLayout($event)" #layoutList="cdkDropList" [cdkDropListConnectedTo]="[itemsList]">
+                <div class="item layout-item" *ngFor="let item of layoutItems; let i = index" #layoutItem cdkDragBoundary=".tray" cdkDrag [cdkDragData]="item"
+                    [style.top]="item.top" [style.left]="item.left" [style.z-index]="i" (mousedown)="onMouseDown($event, layoutItem)" (cdkDragMoved)="moved($event)">
+
+                    <img class="item-image" [src]="item.image" [alt]="item.alt">
+
                     <ng-container class="item layout-item" *cdkDragPlaceholder></ng-container>
                 </div>
             </div>
         </div>
 
-        <div class="items" cdkDropList #menuList="cdkDropList" [cdkDropListData]="menu" cdkDropListSortingDisabled
-            [cdkDropListConnectedTo]="[tableList]" (cdkDropListDropped)="dropOnMenu($event)"
-            (cdkDropListExited)="exited($event)" (cdkDropListEntered)="entered()" id="menu-drop-list">
-            <div class="item-block">
-                <div cdkDragBoundary=".tray" cdkDrag [cdkDragData]="{}" (cdkDragMoved)="moved($event)" (mousedown)="onMouseDown($event, thisItem)" #thisItem
-                    (cdkDragStarted)="dragStarted($event, 1)" (cdkDragDropped)="dragStopped($event)">
-                    <img class="item-image" src="assets/block1.jpg" alt="block1">
+        <div class="items" cdkDropList #itemsList="cdkDropList" [cdkDropListConnectedTo]="[layoutList]" (cdkDropListDropped)="dropOnItemsList($event)" id="items-drop-list">
+            <div class="item-block" *ngFor="let item of listItems">
+                <div #listItem cdkDragBoundary=".tray" cdkDrag [cdkDragData]="item" (cdkDragMoved)="moved($event)"
+                    (mousedown)="onMouseDown($event, listItem)" (cdkDragStarted)="dragStarted(listItem)" (cdkDragDropped)="dragStopped()">
+
+                    <img class="item-image" [src]="item.image" [alt]="item.alt">
 
                     <ng-container class="item layout-item" *cdkDragPlaceholder></ng-container>
                 </div>
 
-                <div *ngIf="transferringItem == 1" >
-                    <img class="item-image" src="assets/block1.jpg" alt="block1" >
+                <div *ngIf="draggingItem == listItem" >
+                    <img class="item-image" [src]="item.image" [alt]="item.alt">
                 </div>
 
-                <span class="item-title">Block 1</span>
+                <span class="item-title">Cell block</span>
             </div>
         </div>
     </div>
