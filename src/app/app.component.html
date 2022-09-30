@@ -1,38 +1,39 @@
 <div class="designer">
+    <h2 class="title">Designer</h2>
+    <div class="options">
+        <input class="option" type="number" placeholder="height">
+        <input class="option" type="number" placeholder="width">
+    </div>
+
     <div class="tray">
-        <div class="options">
-            <input class="option" type="number" placeholder="height">
-            <input class="option" type="number" placeholder="width">
+        <div class="layout-wrapper">
+            <div class="layout" cdkDropList #tableList="cdkDropList" [cdkDropListData]="table"
+                (cdkDropListDropped)="dropOnLayout($event)" #dropZone [cdkDropListConnectedTo]="[menuList]">
+                <div class="item layout-item" *ngFor="let item of table; let idx = index" cdkDragBoundary=".tray" cdkDrag [cdkDragData]="item" (cdkDragMoved)="moved($event)"
+                    style="position:absolute;z-index:i" [style.top]="item.top" [style.left]="item.left" (mousedown)="onMouseDown($event, thisItem)" #thisItem>
+                    <img class="item-image" src="assets/block1.jpg" alt="block1">
+                    <ng-container class="item layout-item" *cdkDragPlaceholder></ng-container>
+                </div>
+            </div>
         </div>
 
-        <div class="layout">
-            <div class="layout-block"></div>
-            <div class="layout-block"></div>
-            <div class="layout-block"></div>
-            <div class="layout-block"></div>
-            <div class="layout-block"></div>
-            <div class="layout-block"></div>
-            <div class="layout-block"></div>
-            <div class="layout-block"></div>
-            <div class="layout-block"></div>
-        </div>
-    </div>
-    <div class="items">
-        <div class="item-block">
-            <img src="assets/block1.jpg" alt="block1">
-            <span class="item-title">Block 1</span>
-        </div>
-        <div class="item-block">
-            <img src="assets/block2.jpg" alt="block1">
-            <span class="item-title">Block 2</span>
-        </div>
-        <div class="item-block">
-            <img src="assets/block3.jpg" alt="block1">
-            <span class="item-title">Block 3</span>
-        </div>
-        <div class="item-block">
-            <img src="assets/block4.jpg" alt="block1">
-            <span class="item-title">Block 4</span>
+        <div class="items" cdkDropList #menuList="cdkDropList" [cdkDropListData]="menu" cdkDropListSortingDisabled
+            [cdkDropListConnectedTo]="[tableList]" (cdkDropListDropped)="dropOnMenu($event)"
+            (cdkDropListExited)="exited($event)" (cdkDropListEntered)="entered()" id="menu-drop-list">
+            <div class="item-block">
+                <div cdkDragBoundary=".tray" cdkDrag [cdkDragData]="{}" (cdkDragMoved)="moved($event)" (mousedown)="onMouseDown($event, thisItem)" #thisItem
+                    (cdkDragStarted)="dragStarted($event, 1)" (cdkDragDropped)="dragStopped($event)">
+                    <img class="item-image" src="assets/block1.jpg" alt="block1">
+
+                    <ng-container class="item layout-item" *cdkDragPlaceholder></ng-container>
+                </div>
+
+                <div *ngIf="transferringItem == 1" >
+                    <img class="item-image" src="assets/block1.jpg" alt="block1" >
+                </div>
+
+                <span class="item-title">Block 1</span>
+            </div>
         </div>
     </div>
 </div>
