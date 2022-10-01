@@ -13,82 +13,98 @@ export class AppComponent {
         {
             name: "Cell block 1",
             image: "assets/block1.jpg",
-            alt: "Empty cell block"
+            alt: "Empty cell block",
+            type: "block1"
         },
         {
             name: "Cell block 2",
             image: "assets/block2.jpg",
-            alt: "Empty cell block"
+            alt: "Empty cell block",
+            type: "block2"
         },
         {
             name: "Cell block 3",
             image: "assets/block3.jpg",
-            alt: "Empty cell block"
+            alt: "Empty cell block",
+            type: "block3"
         },
         {
             name: "Cell block 4",
             image: "assets/block4.jpg",
-            alt: "Empty cell block"
+            alt: "Empty cell block",
+            type: "block4"
         },
         {
             name: "Cell block 1",
             image: "assets/block1.jpg",
-            alt: "Empty cell block"
+            alt: "Empty cell block",
+            type: "block5"
         },
         {
             name: "Cell block 2",
             image: "assets/block2.jpg",
-            alt: "Empty cell block"
+            alt: "Empty cell block",
+            type: "block6"
         },
         {
             name: "Cell block 3",
             image: "assets/block3.jpg",
-            alt: "Empty cell block"
+            alt: "Empty cell block",
+            type: "block7"
         },
         {
             name: "Cell block 4",
             image: "assets/block4.jpg",
-            alt: "Empty cell block"
+            alt: "Empty cell block",
+            type: "block8"
         },
         {
             name: "Cell block 1",
             image: "assets/block1.jpg",
-            alt: "Empty cell block"
+            alt: "Empty cell block",
+            type: "block9"
         },
         {
             name: "Cell block 2",
             image: "assets/block2.jpg",
-            alt: "Empty cell block"
+            alt: "Empty cell block",
+            type: "block10"
         },
         {
             name: "Cell block 3",
             image: "assets/block3.jpg",
-            alt: "Empty cell block"
+            alt: "Empty cell block",
+            type: "block11"
         },
         {
             name: "Cell block 4",
             image: "assets/block4.jpg",
-            alt: "Empty cell block"
+            alt: "Empty cell block",
+            type: "block12"
         },
         {
             name: "Cell block 1",
             image: "assets/block1.jpg",
-            alt: "Empty cell block"
+            alt: "Empty cell block",
+            type: "block13"
         },
         {
             name: "Cell block 2",
             image: "assets/block2.jpg",
-            alt: "Empty cell block"
+            alt: "Empty cell block",
+            type: "block14"
         },
         {
             name: "Cell block 3",
             image: "assets/block3.jpg",
-            alt: "Empty cell block"
+            alt: "Empty cell block",
+            type: "block15"
         },
         {
             name: "Cell block 4",
             image: "assets/block4.jpg",
-            alt: "Empty cell block"
+            alt: "Empty cell block",
+            type: "block16"
         }
     ];
     layoutItems: Array<any> = [];

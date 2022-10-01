@@ -64,19 +64,49 @@
                 height: 100%;
                 overflow: hidden scroll;
 
+                .item-image {
+                    transition: transform 0.4s ease-in-out;
+                }
+
+                .item-title {
+                    z-index: 1;
+                }
+
+                .item-block.selected-item .item-image {
+                    transform: scale(1.5);
+                }
+
+                .list-item-placeholder {
+                    visibility: hidden;
+                    height: 0;
+                }
+
+                .list-item-placeholder.shown {
+                    visibility: visible;
+                    height: 100%;
+                }
+
                 ::ng-deep {
                     .cdk-drag-placeholder {
                         display: none;
                     }
                 }
+
+                &.dragging {
+                    opacity: 0.5;
+                }
+
+                &.hovered.dragging {
+                    opacity: 0.1;
+                }
             }
 
             .trash {
                 position: absolute;
-                top: calc(50% - 40px);
-                left: calc(50% - 40px);
+                top: calc(50% - 60px);
+                left: calc(50% - 60px);
                 opacity: 0.75;
-                height: 80px;
+                height: 100px;
                 width: auto;
                 transition: transform 1s ease-in-out, opacity 1s ease-in-out;
 
@@ -84,19 +114,11 @@
                     width: 100%;
                     height: 100%;
                 }
-            }
 
-            .items.dragging {
-                opacity: 0.5;
-            }
-
-            .items.hovered.dragging {
-                opacity: 0.1;
-            }
-
-            .trash.hovered {
-                opacity: 0.9;
-                transform: scale(1.5);
+                &.hovered {
+                    opacity: 0.9;
+                    transform: scale(1.5);
+                }
             }
         }
     }

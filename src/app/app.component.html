@@ -20,16 +20,17 @@
         <div class="items-block">
             <div class="items" [ngClass]="{dragging: draggingMode, hovered: listItemsHovered}" cdkDropList #itemsList="cdkDropList"
             [cdkDropListConnectedTo]="[layoutList]" (cdkDropListDropped)="dropOnItemsList($event)" id="items-drop-list" (cdkDropListEntered)="itemsListEntered()" (cdkDropListExited)="itemsListExited()">
-            <div class="item-block" *ngFor="let item of listItems">
+
+            <div class="item-block" *ngFor="let item of listItems" [ngClass]="{'selected-item': draggingItem?.type == item.type}">
                 <div class="list-item" #listItem cdkDragBoundary=".tray" cdkDrag [cdkDragData]="item" (cdkDragMoved)="moved($event)"
-                    (mousedown)="onMouseDown($event, listItem)" (cdkDragStarted)="dragStarted(listItem)" (cdkDragDropped)="dragStopped()">
+                    (mousedown)="onMouseDown($event, listItem)" (cdkDragStarted)="dragStarted(item)" (cdkDragDropped)="dragStopped()">
 
                     <img class="item-image" [src]="item.image" [alt]="item.alt">
 
                     <ng-container class="item layout-item" *cdkDragPlaceholder></ng-container>
                 </div>
 
-                <div class="list-item" *ngIf="draggingItem == listItem" >
+                <div class="list-item list-item-placeholder" [ngClass]="{shown: draggingItem == item}" >
                     <img class="item-image" [src]="item.image" [alt]="item.alt">
                 </div>
 
