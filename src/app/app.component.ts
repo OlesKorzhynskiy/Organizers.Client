@@ -29,6 +29,66 @@ export class AppComponent {
             name: "Cell block 4",
             image: "assets/block4.jpg",
             alt: "Empty cell block"
+        },
+        {
+            name: "Cell block 1",
+            image: "assets/block1.jpg",
+            alt: "Empty cell block"
+        },
+        {
+            name: "Cell block 2",
+            image: "assets/block2.jpg",
+            alt: "Empty cell block"
+        },
+        {
+            name: "Cell block 3",
+            image: "assets/block3.jpg",
+            alt: "Empty cell block"
+        },
+        {
+            name: "Cell block 4",
+            image: "assets/block4.jpg",
+            alt: "Empty cell block"
+        },
+        {
+            name: "Cell block 1",
+            image: "assets/block1.jpg",
+            alt: "Empty cell block"
+        },
+        {
+            name: "Cell block 2",
+            image: "assets/block2.jpg",
+            alt: "Empty cell block"
+        },
+        {
+            name: "Cell block 3",
+            image: "assets/block3.jpg",
+            alt: "Empty cell block"
+        },
+        {
+            name: "Cell block 4",
+            image: "assets/block4.jpg",
+            alt: "Empty cell block"
+        },
+        {
+            name: "Cell block 1",
+            image: "assets/block1.jpg",
+            alt: "Empty cell block"
+        },
+        {
+            name: "Cell block 2",
+            image: "assets/block2.jpg",
+            alt: "Empty cell block"
+        },
+        {
+            name: "Cell block 3",
+            image: "assets/block3.jpg",
+            alt: "Empty cell block"
+        },
+        {
+            name: "Cell block 4",
+            image: "assets/block4.jpg",
+            alt: "Empty cell block"
         }
     ];
     layoutItems: Array<any> = [];
@@ -37,6 +97,8 @@ export class AppComponent {
     pointerShiftX: any;
     pointerShiftY: any;
     draggingItem: any| undefined = undefined;
+    draggingMode: boolean = false;
+    listItemsHovered: boolean = false;
 
     moved(event: CdkDragMove) {
         this.pointerPosition = event.pointerPosition;
@@ -63,8 +125,6 @@ export class AppComponent {
             item.top = top;
             item.left = left;
         }
-
-        this.draggingItem = undefined;
     }
 
     dropOnItemsList(event: any) {
@@ -82,9 +142,19 @@ export class AppComponent {
 
     dragStarted(element: any) {
         this.draggingItem = element;
+        this.draggingMode = true;
     }
 
     dragStopped() {
+        this.draggingMode = false;
         this.draggingItem = undefined;
+    }
+
+    itemsListEntered() {
+        this.listItemsHovered = true;
+    }
+
+    itemsListExited() {
+        this.listItemsHovered = false;
     }
 }

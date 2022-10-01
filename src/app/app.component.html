@@ -1,17 +1,14 @@
 <div class="designer">
     <div class="header">
         <h2 class="title">Designer</h2>
-        <div class="options">
-            <input class="option" type="number" placeholder="height">
-            <input class="option" type="number" placeholder="width">
-        </div>
     </div>
 
     <div class="tray">
         <div class="layout-wrapper">
             <div class="layout" #layoutDropZone cdkDropList (cdkDropListDropped)="dropOnLayout($event)" #layoutList="cdkDropList" [cdkDropListConnectedTo]="[itemsList]">
                 <div class="item layout-item" *ngFor="let item of layoutItems; let i = index" #layoutItem cdkDragBoundary=".tray" cdkDrag [cdkDragData]="item"
-                    [style.top]="item.top" [style.left]="item.left" [style.z-index]="i" (mousedown)="onMouseDown($event, layoutItem)" (cdkDragMoved)="moved($event)">
+                    [style.top]="item.top" [style.left]="item.left" [style.z-index]="i" (mousedown)="onMouseDown($event, layoutItem)"
+                    (cdkDragStarted)="dragStarted(item)" (cdkDragDropped)="dragStopped()" (cdkDragMoved)="moved($event)">
 
                     <img class="item-image" [src]="item.image" [alt]="item.alt">
 
@@ -20,9 +17,11 @@
             </div>
         </div>
 
-        <div class="items" cdkDropList #itemsList="cdkDropList" [cdkDropListConnectedTo]="[layoutList]" (cdkDropListDropped)="dropOnItemsList($event)" id="items-drop-list">
+        <div class="items-block">
+            <div class="items" [ngClass]="{dragging: draggingMode, hovered: listItemsHovered}" cdkDropList #itemsList="cdkDropList"
+            [cdkDropListConnectedTo]="[layoutList]" (cdkDropListDropped)="dropOnItemsList($event)" id="items-drop-list" (cdkDropListEntered)="itemsListEntered()" (cdkDropListExited)="itemsListExited()">
             <div class="item-block" *ngFor="let item of listItems">
-                <div #listItem cdkDragBoundary=".tray" cdkDrag [cdkDragData]="item" (cdkDragMoved)="moved($event)"
+                <div class="list-item" #listItem cdkDragBoundary=".tray" cdkDrag [cdkDragData]="item" (cdkDragMoved)="moved($event)"
                     (mousedown)="onMouseDown($event, listItem)" (cdkDragStarted)="dragStarted(listItem)" (cdkDragDropped)="dragStopped()">
 
                     <img class="item-image" [src]="item.image" [alt]="item.alt">
@@ -30,12 +29,17 @@
                     <ng-container class="item layout-item" *cdkDragPlaceholder></ng-container>
                 </div>
 
-                <div *ngIf="draggingItem == listItem" >
+                <div class="list-item" *ngIf="draggingItem == listItem" >
                     <img class="item-image" [src]="item.image" [alt]="item.alt">
                 </div>
 
                 <span class="item-title">Cell block</span>
             </div>
+        </div>
+
+        <div class="trash" [ngClass]="{hovered: listItemsHovered}" *ngIf="draggingMode">
+            <img src="assets/trash.png" alt="trash">
+        </div>
         </div>
     </div>
 </div>
