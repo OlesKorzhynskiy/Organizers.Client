@@ -116,8 +116,21 @@ export class AppComponent {
     draggingMode: boolean = false;
     listItemsHovered: boolean = false;
 
-    moved(event: CdkDragMove) {
+    moved(event: CdkDragMove, item: any) {
         this.pointerPosition = event.pointerPosition;
+
+        item.placholderTop = this.getTopPosition();
+        item.placholderLeft = this.getLeftPosition();
+    }
+
+    getTopPosition() {
+        let positionY = this.pointerPosition.y - this.pointerShiftY;
+        return (positionY - this.layoutDropZone.nativeElement.getBoundingClientRect().top) + 'px';
+    }
+
+    getLeftPosition() {
+        let positionX = this.pointerPosition.x - this.pointerShiftX;
+        return (positionX - this.layoutDropZone.nativeElement.getBoundingClientRect().left) + 'px';
     }
 
     onMouseDown(event: any, element: any) {
@@ -126,20 +139,14 @@ export class AppComponent {
     }
 
     dropOnLayout(event: any) {
-        let positionX = this.pointerPosition.x - this.pointerShiftX;
-        let positionY = this.pointerPosition.y - this.pointerShiftY;
-
-        const top = (positionY - this.layoutDropZone.nativeElement.getBoundingClientRect().top) + 'px';
-        const left = (positionX - this.layoutDropZone.nativeElement.getBoundingClientRect().left) + 'px';
-
         if (event.previousContainer.id == "items-drop-list") {
-            event.item.data.top = top;
-            event.item.data.left = left;
-            this.addItem({ ...event.item.data }, event.currentIndex);
+            event.item.data.top = this.getTopPosition();
+            event.item.data.left = this.getLeftPosition();
+            this.addLayoutItem({ ...event.item.data }, event.currentIndex);
         } else if (event.previousContainer === event.container) {
             let item = this.layoutItems.find(t => t == event.item.data);
-            item.top = top;
-            item.left = left;
+            item.top = this.getTopPosition();
+            item.left = this.getLeftPosition();
         }
     }
 
@@ -152,8 +159,8 @@ export class AppComponent {
         this.layoutItems.splice(index, 1);
     }
 
-    addItem(item: any, index: number) {
-        this.layoutItems.splice(index, 0, item)
+    addLayoutItem(item: any, index: number) {
+        this.layoutItems.splice(index, 0, item);
     }
 
     dragStarted(element: any) {

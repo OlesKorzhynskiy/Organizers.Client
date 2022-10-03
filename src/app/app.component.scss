@@ -25,16 +25,24 @@
                 position: relative;
                 border: 1px solid rgb(223, 223, 223);
 
-                .layout-block {
-                    height: 100px;
-                    background-color: beige;
-                    border: 1px solid rgb(223, 223, 223);
-                }
-
                 .layout-item {
                     position: absolute;
                     z-index: 1;
                     transform: none !important;
+
+                    .item-image {
+                        transform: scale(3);
+                    }
+                }
+
+                .placholder-layout-item {
+                    opacity: 0.5;
+                }
+
+                ::ng-deep {
+                    .cdk-drag-placeholder {
+                        transform: none !important;
+                    }
                 }
             }
         }

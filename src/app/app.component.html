@@ -8,11 +8,15 @@
             <div class="layout" #layoutDropZone cdkDropList (cdkDropListDropped)="dropOnLayout($event)" #layoutList="cdkDropList" [cdkDropListConnectedTo]="[itemsList]">
                 <div class="item layout-item" *ngFor="let item of layoutItems; let i = index" #layoutItem cdkDragBoundary=".tray" cdkDrag [cdkDragData]="item"
                     [style.top]="item.top" [style.left]="item.left" [style.z-index]="i" (mousedown)="onMouseDown($event, layoutItem)"
-                    (cdkDragStarted)="dragStarted(item)" (cdkDragDropped)="dragStopped()" (cdkDragMoved)="moved($event)">
+                    (cdkDragStarted)="dragStarted(item)" (cdkDragDropped)="dragStopped()" (cdkDragMoved)="moved($event, item)">
 
                     <img class="item-image" [src]="item.image" [alt]="item.alt">
 
-                    <ng-container class="item layout-item" *cdkDragPlaceholder></ng-container>
+                    <ng-container *cdkDragPlaceholder>
+                        <div class="item layout-item placholder-layout-item" [style.top]="item.placholderTop" [style.left]="item.placholderLeft">
+                            <img class="item-image" [src]="item.image" [alt]="item.alt">
+                        </div>
+                    </ng-container>
                 </div>
             </div>
         </div>
@@ -22,12 +26,16 @@
             [cdkDropListConnectedTo]="[layoutList]" (cdkDropListDropped)="dropOnItemsList($event)" id="items-drop-list" (cdkDropListEntered)="itemsListEntered()" (cdkDropListExited)="itemsListExited()">
 
             <div class="item-block" *ngFor="let item of listItems" [ngClass]="{'selected-item': draggingItem?.type == item.type}">
-                <div class="list-item" #listItem cdkDragBoundary=".tray" cdkDrag [cdkDragData]="item" (cdkDragMoved)="moved($event)"
+                <div class="list-item" #listItem cdkDragBoundary=".tray" cdkDrag [cdkDragData]="item" (cdkDragMoved)="moved($event, item)"
                     (mousedown)="onMouseDown($event, listItem)" (cdkDragStarted)="dragStarted(item)" (cdkDragDropped)="dragStopped()">
 
                     <img class="item-image" [src]="item.image" [alt]="item.alt">
 
-                    <ng-container class="item layout-item" *cdkDragPlaceholder></ng-container>
+                    <ng-container *cdkDragPlaceholder>
+                        <div class="item layout-item placholder-layout-item" [style.top]="item.placholderTop" [style.left]="item.placholderLeft">
+                            <img class="item-image" [src]="item.image" [alt]="item.alt">
+                        </div>
+                    </ng-container>
                 </div>
 
                 <div class="list-item list-item-placeholder" [ngClass]="{shown: draggingItem == item}" >
