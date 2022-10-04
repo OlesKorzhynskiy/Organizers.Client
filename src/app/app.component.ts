@@ -11,100 +11,88 @@ export class AppComponent {
 
     listItems: Array<any> = [
         {
-            name: "Cell block 1",
-            image: "assets/block1.jpg",
-            alt: "Empty cell block",
-            type: "block1"
+            name: "Cell 5x5",
+            image: "assets/blocks/C5x5.png",
+            alt: "Cell 5x5",
+            type: "Cell5x5"
         },
         {
-            name: "Cell block 2",
-            image: "assets/block2.jpg",
-            alt: "Empty cell block",
-            type: "block2"
+            name: "Cell 10x5",
+            image: "assets/blocks/C10x5.png",
+            alt: "Cell 10x5",
+            type: "Cell10x5"
         },
         {
-            name: "Cell block 3",
-            image: "assets/block3.jpg",
-            alt: "Empty cell block",
-            type: "block3"
+            name: "Cell 10x10",
+            image: "assets/blocks/C10x10.png",
+            alt: "Cell 10x10",
+            type: "Cell10x10"
         },
         {
-            name: "Cell block 4",
-            image: "assets/block4.jpg",
-            alt: "Empty cell block",
-            type: "block4"
+            name: "Cell 10x10 grid",
+            image: "assets/blocks/C10x10grid.png",
+            alt: "Cell 10x10 grid",
+            type: "Cell10x10grid"
         },
         {
-            name: "Cell block 1",
-            image: "assets/block1.jpg",
-            alt: "Empty cell block",
-            type: "block5"
+            name: "Cell 15x5",
+            image: "assets/blocks/C15x5.png",
+            alt: "Cell 15x5",
+            type: "Cell15x5"
         },
         {
-            name: "Cell block 2",
-            image: "assets/block2.jpg",
-            alt: "Empty cell block",
-            type: "block6"
+            name: "Cell 20x10",
+            image: "assets/blocks/C20x10.png",
+            alt: "Cell 20x10",
+            type: "Cell20x10"
         },
         {
-            name: "Cell block 3",
-            image: "assets/block3.jpg",
-            alt: "Empty cell block",
-            type: "block7"
+            name: "Cell 20x20 grid",
+            image: "assets/blocks/C20x20grid.png",
+            alt: "Cell 20x20 grid",
+            type: "Cell20x20grid"
         },
         {
-            name: "Cell block 4",
-            image: "assets/block4.jpg",
-            alt: "Empty cell block",
-            type: "block8"
+            name: "Squeezebox 5x5",
+            image: "assets/blocks/S5x5.png",
+            alt: "Squeezebox 5x5",
+            type: "Squeezebox5x5"
         },
         {
-            name: "Cell block 1",
-            image: "assets/block1.jpg",
-            alt: "Empty cell block",
-            type: "block9"
+            name: "Squeezebox 10x5",
+            image: "assets/blocks/S10x5.png",
+            alt: "Squeezebox 10x5",
+            type: "Squeezebox10x5"
         },
         {
-            name: "Cell block 2",
-            image: "assets/block2.jpg",
-            alt: "Empty cell block",
-            type: "block10"
+            name: "Squeezebox 10x10",
+            image: "assets/blocks/S10x10.png",
+            alt: "Squeezebox 10x10",
+            type: "Squeezebox10x10"
         },
         {
-            name: "Cell block 3",
-            image: "assets/block3.jpg",
-            alt: "Empty cell block",
-            type: "block11"
+            name: "Squeezebox 20x10",
+            image: "assets/blocks/S20x10.png",
+            alt: "Squeezebox 20x10",
+            type: "Squeezebox20x10"
         },
         {
-            name: "Cell block 4",
-            image: "assets/block4.jpg",
-            alt: "Empty cell block",
-            type: "block12"
+            name: "Wave 5x15 twin",
+            image: "assets/blocks/W5x15twin.png",
+            alt: "Wave 5x15 twin",
+            type: "Wave5x15 twin"
         },
         {
-            name: "Cell block 1",
-            image: "assets/block1.jpg",
-            alt: "Empty cell block",
-            type: "block13"
+            name: "Wave 5x25 twin",
+            image: "assets/blocks/W5x25twin.png",
+            alt: "Wave 5x25 twin",
+            type: "Wave5x25 twin"
         },
         {
-            name: "Cell block 2",
-            image: "assets/block2.jpg",
-            alt: "Empty cell block",
-            type: "block14"
-        },
-        {
-            name: "Cell block 3",
-            image: "assets/block3.jpg",
-            alt: "Empty cell block",
-            type: "block15"
-        },
-        {
-            name: "Cell block 4",
-            image: "assets/block4.jpg",
-            alt: "Empty cell block",
-            type: "block16"
+            name: "Wave 5x30",
+            image: "assets/blocks/W5x30.png",
+            alt: "Wave 5x30",
+            type: "Wave5x30"
         }
     ];
     layoutItems: Array<any> = [];

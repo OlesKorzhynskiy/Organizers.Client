@@ -31,7 +31,7 @@
                     transform: none !important;
 
                     .item-image {
-                        transform: scale(3);
+
                     }
                 }
 
@@ -59,39 +59,49 @@
             width: 320px;
 
             .items {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
                 transition: opacity 1s ease-in-out;
                 background-color: rgb(255, 255, 255);
                 border: 1px solid rgb(223, 223, 223);
                 outline: none;
-                display: block;
-                align-items: normal;
-                flex-direction: column;
                 height: 100%;
                 position: relative;
                 width: 320px;
                 height: 100%;
                 overflow: hidden scroll;
 
-                .item-image {
-                    transition: transform 0.4s ease-in-out;
-                }
+                .item-block {
+                    .list-item {
+                        flex-grow: 1;
+                        display: flex;
+                        align-items: center;
 
-                .item-title {
-                    z-index: 1;
-                }
+                        .item-image {
+                            transition: transform 0.4s ease-in-out;
+                        }
+                    }
 
-                .item-block.selected-item .item-image {
-                    transform: scale(1.5);
-                }
+                    .item-title {
+                        z-index: 1;
+                    }
 
-                .list-item-placeholder {
-                    visibility: hidden;
-                    height: 0;
-                }
+                    .list-item-placeholder {
+                        visibility: hidden;
+                        height: 0;
+                        flex-grow: 0;
 
-                .list-item-placeholder.shown {
-                    visibility: visible;
-                    height: 100%;
+                        &.shown {
+                            visibility: visible;
+                            height: 100%;
+                            flex-grow: 1;
+                        }
+                    }
+
+                    &.selected-item .item-image {
+                        transform: scale(1.1);
+                    }
                 }
 
                 ::ng-deep {
@@ -133,14 +143,14 @@
 }
 
 .item-block {
-    display: flex;
-    flex-direction: column;
-    margin: 0 8px 8px;
+    margin: 4px 8px;
     width: calc(50% - 16px);
     display: inline-flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
+    flex-grow: 0;
     flex-basis: auto;
     position: relative;
     box-sizing: border-box;
@@ -161,6 +171,8 @@
 }
 
 .item-image {
-    width: 100px;
-    height: 100px;
+    margin: 20px 10px;
+    width: 80px;
+    height: auto;
+    max-height: 100%;
 }
