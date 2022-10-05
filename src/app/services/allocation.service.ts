@@ -8,12 +8,13 @@ import { Point } from "../models/point";
 export class AllocationService {
     margin: number = 250;
 
-    allocationPosition(items: BlockItem[], item: BlockItem): Point | null {
+    findClosestPosition(items: BlockItem[], item: BlockItem, layoutWidth: number, layoutHeight: number): Point | null {
         let closestPoints: any[] = [];
 
         items.forEach(a => {
             let closestPoint = this.getClosestPoint(a, item);
-            closestPoints.push(closestPoint);
+            if (closestPoint.min <= this.margin)
+                closestPoints.push(closestPoint);
         });
 
         if (!closestPoints || closestPoints.length == 0)
@@ -21,11 +22,23 @@ export class AllocationService {
 
         closestPoints.sort((a, b) => a.min - b.min);
 
-        let closestPoint = closestPoints[0];
-        if (closestPoint.min > this.margin)
-            return null;
+        for (let i = 0; i < closestPoints.length; i++) {
+            let closestPoint = closestPoints[i];
+            if (this.isValid(closestPoint, item, layoutWidth, layoutHeight))
+                return closestPoint.point;
+        }
 
-        return closestPoint.point;
+        return null;
+    }
+
+    isValid(closestPoint: any, item: BlockItem, layoutWidth: number, layoutHeight: number): boolean {
+        if (closestPoint.point.x < 0 || closestPoint.point.y < 0)
+            return false;
+
+        if (closestPoint.point.x + item.width > layoutWidth || closestPoint.point.y + item.height > layoutHeight)
+            return false;
+
+        return true;
     }
 
     getClosestPoint(a: BlockItem, b: BlockItem): any {

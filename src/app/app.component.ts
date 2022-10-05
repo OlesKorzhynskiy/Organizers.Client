@@ -175,7 +175,7 @@ export class AppComponent {
 
         let blockItems = this.layoutItems.filter(i => i != item).map(item => new BlockItem(new Point(parseInt(item.left), parseInt(item.top)), item.width, item.height));
         let blockItem = new BlockItem(new Point(parseInt(item.placholderLeft), parseInt(item.placholderTop)), item.width, item.height);
-        let newPosition = this.allocationService.allocationPosition(blockItems, blockItem);
+        let newPosition = this.allocationService.findClosestPosition(blockItems, blockItem, this.layoutDropZone.nativeElement.offsetWidth, this.layoutDropZone.nativeElement.offsetHeight);
 
         if (newPosition) {
             item.placholderTop = newPosition.y + 'px';
