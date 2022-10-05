@@ -204,12 +204,34 @@ export class AppComponent {
         if (event.previousContainer.id == "items-drop-list") {
             event.item.data.top = event.item.data.placholderTop;
             event.item.data.left = event.item.data.placholderLeft;
-            this.addLayoutItem({ ...event.item.data }, event.currentIndex);
+            let newItem = { ...event.item.data };
+            this.addLayoutItem(newItem, event.currentIndex);
+
+            setTimeout(() => {
+                this.updateDocument(newItem);
+            });
         } else if (event.previousContainer === event.container) {
-            let item = this.layoutItems.find(t => t == event.item.data);
+            let index = this.layoutItems.findIndex(t => t == event.item.data);
+            let item = this.layoutItems[index];
+
             item.top = item.placholderTop;
             item.left = item.placholderLeft;
+
+            setTimeout(() => {
+                this.updateDocument(item);
+            });
         }
+    }
+
+    updateDocument(item: any) {
+        let index = this.layoutItems.findIndex(t => t == item);
+        let id = 'layout-item-' + index;
+        let documentElement = document.getElementById(id);
+        if (!documentElement)
+            return;
+
+        documentElement.style.top = item.placholderTop;
+        documentElement.style.left = item.placholderLeft;
     }
 
     dropOnItemsList(event: any) {
