@@ -167,11 +167,11 @@ export class AppComponent {
     draggingMode: boolean = false;
     listItemsHovered: boolean = false;
 
-    moved(event: CdkDragMove, item: any, isLayout: boolean = false) {
+    moved(event: CdkDragMove, item: any) {
         this.pointerPosition = event.pointerPosition;
 
-        item.placholderTop = this.getPlaceholderTopPosition(item, isLayout);
-        item.placholderLeft = this.getPlaceholderLeftPosition(item, isLayout);
+        item.placholderTop = this.getPlaceholderTopPosition();
+        item.placholderLeft = this.getPlaceholderLeftPosition();
 
         let blockItems = this.layoutItems.filter(i => i != item).map(item => new BlockItem(new Point(parseInt(item.left), parseInt(item.top)), item.width, item.height));
         let blockItem = new BlockItem(new Point(parseInt(item.placholderLeft), parseInt(item.placholderTop)), item.width, item.height);
@@ -183,18 +183,16 @@ export class AppComponent {
         }
     }
 
-    getPlaceholderTopPosition(item: any, isLayout: boolean) {
+    getPlaceholderTopPosition() {
         let absoluteY = this.pointerPosition.y - this.pointerShiftY;
         let itemY = absoluteY - this.layoutDropZone.nativeElement.getBoundingClientRect().top;
-        let placeholderShift = isLayout ? 0 : (item.height - item.menuItemHeight) / 2;
-        return itemY - placeholderShift + 'px';
+        return itemY + 'px';
     }
 
-    getPlaceholderLeftPosition(item: any, isLayout: boolean) {
+    getPlaceholderLeftPosition() {
         let absoluteX = this.pointerPosition.x - this.pointerShiftX;
         let itemX = absoluteX - this.layoutDropZone.nativeElement.getBoundingClientRect().left;
-        let placeholderShift = isLayout ? 0 : (item.width - item.menuItemWidth) / 2;
-        return itemX - placeholderShift + 'px';
+        return itemX + 'px';
     }
 
     onMouseDown(event: any, element: any) {
@@ -230,6 +228,14 @@ export class AppComponent {
     dragStarted(element: any) {
         this.draggingItem = element;
         this.draggingMode = true;
+
+        let previewItem = document.getElementsByClassName('cdk-drag-preview')[0] as any;
+        previewItem.style.width = element.width + 'px';
+        previewItem.style.height = element.height + 'px';
+
+        let image = previewItem.querySelector('.item-image');
+        image.style.width = element.width + 'px';
+        image.style.height = element.height + 'px';
     }
 
     dragStopped() {

@@ -8,7 +8,7 @@
             <div class="layout" #layoutDropZone cdkDropList (cdkDropListDropped)="dropOnLayout($event)" #layoutList="cdkDropList" [cdkDropListConnectedTo]="[itemsList]">
                 <div class="item layout-item" *ngFor="let item of layoutItems; let i = index" #layoutItem cdkDragBoundary=".tray" cdkDrag [cdkDragData]="item"
                     [style.top]="item.top" [style.left]="item.left" [style.z-index]="i" (mousedown)="onMouseDown($event, layoutItem)"
-                    (cdkDragStarted)="dragStarted(item)" (cdkDragDropped)="dragStopped()" (cdkDragMoved)="moved($event, item, true)">
+                    (cdkDragStarted)="dragStarted(item)" (cdkDragDropped)="dragStopped()" (cdkDragMoved)="moved($event, item)">
 
                     <img class="item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.width + 'px'" [style.height]="item.height + 'px'">
 
