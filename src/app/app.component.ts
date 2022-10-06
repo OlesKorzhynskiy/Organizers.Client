@@ -204,7 +204,7 @@ export class AppComponent {
         if (event.previousContainer.id == "items-drop-list") {
             event.item.data.top = event.item.data.placholderTop;
             event.item.data.left = event.item.data.placholderLeft;
-            let newItem = { ...event.item.data };
+            let newItem = { ...event.item.data, hidden: true };
             this.addLayoutItem(newItem, event.currentIndex);
 
             setTimeout(() => {
@@ -216,10 +216,7 @@ export class AppComponent {
 
             item.top = item.placholderTop;
             item.left = item.placholderLeft;
-
-            setTimeout(() => {
-                this.updateDocument(item);
-            });
+            this.updateDocument(item);
         }
     }
 
@@ -232,6 +229,7 @@ export class AppComponent {
 
         documentElement.style.top = item.placholderTop;
         documentElement.style.left = item.placholderLeft;
+        item.hidden = false;
     }
 
     dropOnItemsList(event: any) {
