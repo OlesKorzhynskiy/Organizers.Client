@@ -6,7 +6,7 @@ import { Point } from "../models/point";
     providedIn: 'root'
 })
 export class AllocationService {
-    cornerMargin: number = 250;
+    cornerMargin: number = 20;
     sideMargin: number = 50;
 
     findClosestPosition(items: BlockItem[], item: BlockItem, layoutWidth: number, layoutHeight: number): Point | null {
@@ -52,11 +52,13 @@ export class AllocationService {
     }
 
     getClosestLineIntersection(a: BlockItem, b: BlockItem): any {
-        let center = new Point(b.topLeftPoint.x + b.width / 2, b.topLeftPoint.y + b.height / 2);
-        let left = this.getClosestLeftPoint(a, center, b);
-        let right = this.getClosestRightPoint(a, center, b);
-        let top = this.getClosestTopPoint(a, center, b);
-        let bottom = this.getClosestBottomPoint(a, center, b);
+        let aCenter = this.getCenter(a);
+        let bCenter = this.getCenter(b);
+
+        let left = this.getClosestLeftPoint(a, bCenter, b);
+        let right = this.getClosestRightPoint(a, bCenter, b);
+        let top = this.getClosestTopPoint(a, bCenter, b);
+        let bottom = this.getClosestBottomPoint(a, bCenter, b);
 
         let leftDistance = left ? this.calculateDistance(left, b.topLeftPoint) : null;
         let rightDistance = right ? this.calculateDistance(new Point(right.x + b.width, right.y), b.topRightPoint) : null;
@@ -68,10 +70,87 @@ export class AllocationService {
             return null;
 
         switch (min) {
-            case leftDistance: return { min, point: left, side: 'left' };
-            case rightDistance: return { min, point: right, side: 'right' };
-            case topDistance: return { min, point: top, side: 'top' };
-            case bottomDistance: return { min, point: bottom, side: 'bottom' };
+            case leftDistance: {
+                if (!left)
+                    throw new Error('left can not be empty');
+
+                if (b.height > a.height) {
+                    if (aCenter.y < bCenter.y) {
+                        left.y = a.topRightPoint.y;
+                    } else {
+                        left.y = a.bottomRightPoint.y - b.height;
+                    }
+                } else {
+                    if (b.topRightPoint.y < a.topLeftPoint.y) {
+                        left.y = a.topLeftPoint.y;
+                    }
+                    if (b.bottomRightPoint.y > a.bottomLeftPoint.y) {
+                        left.y = a.bottomLeftPoint.y - b.height;
+                    }
+                }
+                return { min, point: left, side: 'left' };
+            }
+            case rightDistance: {
+                if (!right)
+                    throw new Error('right can not be empty');
+
+                if (b.height > a.height) {
+                    if (aCenter.y < bCenter.y) {
+                        right.y = a.topLeftPoint.y;
+                    } else {
+                        right.y = a.bottomLeftPoint.y - b.height;
+                    }
+                } else {
+                    if (right && b.topLeftPoint.y < a.topRightPoint.y) {
+                        right.y = a.topRightPoint.y;
+                    }
+                    if (right && b.bottomLeftPoint.y > a.bottomRightPoint.y) {
+                        right.y = a.bottomRightPoint.y - b.height;
+                    }
+                }
+
+                return { min, point: right, side: 'right' };
+            }
+            case topDistance: {
+                if (!top)
+                    throw new Error('top can not be empty');
+
+                if (b.width > a.width) {
+                    if (aCenter.x < bCenter.x) {
+                        top.x = a.bottomLeftPoint.x;
+                    } else {
+                        top.x = a.bottomRightPoint.x - b.width;
+                    }
+                } else {
+                    if (b.topLeftPoint.x < a.bottomLeftPoint.x) {
+                        top.x = a.bottomLeftPoint.x;
+                    }
+                    if (b.topRightPoint.x > a.bottomRightPoint.x) {
+                        top.x = a.bottomRightPoint.x - b.width;
+                    }
+                }
+                return { min, point: top, side: 'top' };
+            }
+            case bottomDistance: {
+                if (!bottom)
+                    throw new Error('bottom can not be empty');
+
+                if (b.width > a.width) {
+                    if (aCenter.x < bCenter.x) {
+                        bottom.x = a.topLeftPoint.x;
+                    } else {
+                        bottom.x = a.topRightPoint.x - b.width;
+                    }
+                } else {
+                    if (b.bottomLeftPoint.x < a.topLeftPoint.x) {
+                        bottom.x = a.topLeftPoint.x;
+                    }
+                    if (b.bottomRightPoint.x > a.topRightPoint.x) {
+                        bottom.x = a.topRightPoint.x - b.width;
+                    }
+                }
+                return { min, point: bottom, side: 'bottom' };
+            }
         }
     }
 
@@ -147,5 +226,9 @@ export class AllocationService {
         let x = Math.pow(b.x - a.x, 2);
         let y = Math.pow(b.y - a.y, 2);
         return Math.sqrt(x + y);
+    }
+
+    getCenter(point: BlockItem) {
+        return new Point(point.topLeftPoint.x + point.width / 2, point.topLeftPoint.y + point.height / 2);
     }
 }
