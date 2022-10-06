@@ -12,11 +12,11 @@ export class AllocationService {
     findClosestPosition(items: BlockItem[], item: BlockItem, layoutWidth: number, layoutHeight: number): Point | null {
         let closestPoints: any[] = [];
 
-        items.forEach(a => {
-            let closestPoint = this.getClosestCorner(a, item);
-            if (closestPoint.min <= this.cornerMargin)
-                closestPoints.push(closestPoint);
-        });
+        // items.forEach(a => {
+        //     let closestPoint = this.getClosestCorner(a, item);
+        //     if (closestPoint.min <= this.cornerMargin)
+        //         closestPoints.push(closestPoint);
+        // });
 
         items.forEach(a => {
             let closestPoint = this.getClosestLineIntersection(a, item);
@@ -27,7 +27,7 @@ export class AllocationService {
         if (!closestPoints || closestPoints.length == 0)
             return null;
 
-        closestPoints.sort((a, b) => a.min - b.min);
+        closestPoints.sort((a, b) => a.distance - b.distance);
 
         for (let i = 0; i < closestPoints.length; i++) {
             let closestPoint = closestPoints[i];
@@ -55,10 +55,10 @@ export class AllocationService {
         let aCenter = this.getCenter(a);
         let bCenter = this.getCenter(b);
 
-        let left = this.getClosestLeftPoint(a, bCenter, b);
-        let right = this.getClosestRightPoint(a, bCenter, b);
-        let top = this.getClosestTopPoint(a, bCenter, b);
-        let bottom = this.getClosestBottomPoint(a, bCenter, b);
+        let left = this.getClosestLeftPoint(a, b);
+        let right = this.getClosestRightPoint(a, b);
+        let top = this.getClosestTopPoint(a, b);
+        let bottom = this.getClosestBottomPoint(a, b);
 
         let leftDistance = left ? this.calculateDistance(left, b.topLeftPoint) : null;
         let rightDistance = right ? this.calculateDistance(new Point(right.x + b.width, right.y), b.topRightPoint) : null;
@@ -88,7 +88,10 @@ export class AllocationService {
                         left.y = a.bottomLeftPoint.y - b.height;
                     }
                 }
-                return { min, point: left, side: 'left' };
+
+                let distance = this.calculateDistance(left, b.topLeftPoint);
+
+                return { min, distance, point: left, side: 'left' };
             }
             case rightDistance: {
                 if (!right)
@@ -109,7 +112,9 @@ export class AllocationService {
                     }
                 }
 
-                return { min, point: right, side: 'right' };
+                let distance = this.calculateDistance(new Point(right.x + b.width, right.y), b.topRightPoint);
+
+                return { min, distance, point: right, side: 'right' };
             }
             case topDistance: {
                 if (!top)
@@ -129,7 +134,10 @@ export class AllocationService {
                         top.x = a.bottomRightPoint.x - b.width;
                     }
                 }
-                return { min, point: top, side: 'top' };
+
+                let distance = this.calculateDistance(top, b.topLeftPoint);
+
+                return { min, distance, point: top, side: 'top' };
             }
             case bottomDistance: {
                 if (!bottom)
@@ -149,34 +157,37 @@ export class AllocationService {
                         bottom.x = a.topRightPoint.x - b.width;
                     }
                 }
-                return { min, point: bottom, side: 'bottom' };
+
+                let distance = this.calculateDistance(new Point(bottom.x, bottom.y + b.height), b.bottomLeftPoint);
+
+                return { min, distance, point: bottom, side: 'bottom' };
             }
         }
     }
 
-    getClosestLeftPoint(a: BlockItem, center: Point, b: BlockItem) {
-        if (center.y > a.bottomRightPoint.y || center.y < a.topRightPoint.y)
+    getClosestLeftPoint(a: BlockItem, b: BlockItem) {
+        if (b.topLeftPoint.y > a.bottomRightPoint.y || b.bottomLeftPoint.y < a.topRightPoint.y)
             return null;
 
         return new Point(a.topRightPoint.x, b.topLeftPoint.y);
     }
 
-    getClosestRightPoint(a: BlockItem, center: Point, b: BlockItem) {
-        if (center.y > a.bottomLeftPoint.y || center.y < a.topLeftPoint.y)
+    getClosestRightPoint(a: BlockItem, b: BlockItem) {
+        if (b.topRightPoint.y > a.bottomLeftPoint.y || b.bottomRightPoint.y < a.topLeftPoint.y)
             return null;
 
         return new Point(a.topLeftPoint.x - b.width, b.topLeftPoint.y);
     }
 
-    getClosestTopPoint(a: BlockItem, center: Point, b: BlockItem) {
-        if (center.x > a.bottomRightPoint.x || center.x < a.bottomLeftPoint.x)
+    getClosestTopPoint(a: BlockItem, b: BlockItem) {
+        if (b.topRightPoint.x < a.bottomLeftPoint.x || b.topLeftPoint.x > a.bottomRightPoint.x)
             return null;
 
         return new Point(b.topLeftPoint.x, a.bottomLeftPoint.y);
     }
 
-    getClosestBottomPoint(a: BlockItem, center: Point, b: BlockItem) {
-        if (center.x > a.topRightPoint.x || center.x < a.topLeftPoint.x)
+    getClosestBottomPoint(a: BlockItem, b: BlockItem) {
+        if (b.bottomRightPoint.x < a.topLeftPoint.x || b.bottomLeftPoint.x > a.topRightPoint.x)
             return null;
 
         return new Point(b.bottomLeftPoint.x, a.topLeftPoint.y - b.height);
