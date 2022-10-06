@@ -12,12 +12,6 @@ export class AllocationService {
     findClosestPosition(items: BlockItem[], item: BlockItem, layoutWidth: number, layoutHeight: number): Point | null {
         let closestPoints: any[] = [];
 
-        // items.forEach(a => {
-        //     let closestPoint = this.getClosestCorner(a, item);
-        //     if (closestPoint.min <= this.cornerMargin)
-        //         closestPoints.push(closestPoint);
-        // });
-
         items.forEach(a => {
             let closestPoint = this.getClosestLineIntersection(a, item);
             if (closestPoint && closestPoint.min <= this.sideMargin)
@@ -191,46 +185,6 @@ export class AllocationService {
             return null;
 
         return new Point(b.bottomLeftPoint.x, a.topLeftPoint.y - b.height);
-    }
-
-    getClosestCorner(a: BlockItem, b: BlockItem): any {
-        let left = this.getLengthForLeftSide(a, b);
-        let right = this.getLengthForRightSide(a, b);
-        let top = this.getLengthForTopSide(a, b);
-        let bottom = this.getLengthForBottomSide(a, b);
-
-        let min = Math.min(left, right, top, bottom);
-
-        switch (min) {
-            case left: return { min, point: new Point(a.topLeftPoint.x - b.width, a.topLeftPoint.y), side: 'left' };
-            case right: return { min, point: new Point(a.topRightPoint.x, a.topRightPoint.y), side: 'right' };
-            case top: return { min, point: new Point(a.topLeftPoint.x, a.topLeftPoint.y - b.height), side: 'top' };
-            case bottom: return { min, point: new Point(a.bottomLeftPoint.x, a.bottomLeftPoint.y), side: 'bottom' };
-        }
-    }
-
-    getLengthForLeftSide(a: BlockItem, b: BlockItem) {
-        let first = this.calculateDistance(a.topLeftPoint, b.topRightPoint);
-        let second = this.calculateDistance(a.bottomLeftPoint, b.bottomRightPoint);
-        return first + second;
-    }
-
-    getLengthForRightSide(a: BlockItem, b: BlockItem) {
-        let first = this.calculateDistance(a.topRightPoint, b.topLeftPoint);
-        let second = this.calculateDistance(a.bottomRightPoint, b.bottomLeftPoint);
-        return first + second;
-    }
-
-    getLengthForTopSide(a: BlockItem, b: BlockItem) {
-        let first = this.calculateDistance(a.topLeftPoint, b.bottomLeftPoint);
-        let second = this.calculateDistance(a.topRightPoint, b.bottomRightPoint);
-        return first + second;
-    }
-
-    getLengthForBottomSide(a: BlockItem, b: BlockItem) {
-        let first = this.calculateDistance(a.bottomLeftPoint, b.topLeftPoint);
-        let second = this.calculateDistance(a.bottomRightPoint, b.topRightPoint);
-        return first + second;
     }
 
     calculateDistance(a: Point, b: Point): number {
