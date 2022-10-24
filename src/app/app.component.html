@@ -7,7 +7,7 @@
         <div class="layout-wrapper">
             <div class="layout" #layoutDropZone cdkDropListSortingDisabled cdkDropList (cdkDropListDropped)="dropOnLayout($event)" #layoutList="cdkDropList" [cdkDropListConnectedTo]="[itemsList]">
                 <div [id]="'layout-item-' + i" class="item layout-item" *ngFor="let item of layoutItems; let i = index" #layoutItem cdkDragBoundary=".tray" cdkDrag [cdkDragData]="item"
-                    [style.z-index]="i" [style.display]="item.hidden ? 'none' : 'flex'" (mousedown)="onMouseDown($event, layoutItem)"
+                    [style.z-index]="i" [style.display]="item.hidden ? 'none' : 'flex'" (mousedown)="onMouseDown($event, layoutItem)" (click)="rotate(item)"
                     (cdkDragStarted)="dragStarted(item)" (cdkDragDropped)="dragStopped()" (cdkDragMoved)="moved($event, item)">
 
                     <img class="item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.width + 'px'" [style.height]="item.height + 'px'">

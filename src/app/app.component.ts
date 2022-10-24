@@ -200,6 +200,25 @@ export class AppComponent {
         this.pointerShiftY = event.clientY - element.getBoundingClientRect().top;
     }
 
+    rotate(item: any) {
+        this.swapDimensions(item, item);
+
+        item.rotated = item.rotated ? false : true;
+
+        // TODO: replace with transform: rotate so the new image won't be loaded
+        if (item.rotated) {
+            item.image = item.image.replace('blocks', 'blocks/rotated')
+        } else {
+            item.image = item.image.replace('/rotated', '');
+        }
+    }
+
+    swapDimensions(a: any, b: any) {
+        let temp = a.width;
+        a.width = b.height;
+        b.height = temp;
+    }
+
     dropOnLayout(event: any) {
         if (event.previousContainer.id == "items-drop-list") {
             event.item.data.top = event.item.data.placholderTop;
