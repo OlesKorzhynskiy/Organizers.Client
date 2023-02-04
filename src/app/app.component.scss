@@ -37,6 +37,79 @@
                     z-index: 99999;
                 }
 
+                .bounding-lines {
+                    .bounding-line {
+                        position: absolute;
+                        background-color: gray;
+
+                        .bounding-line-edge {
+                            position: absolute;
+                            background-color: gray;
+                        }
+                    }
+
+                    .top-bounding-line {
+                        height: 2px;
+                        width: 500px;
+                        top: 50px;
+                        left: 100px;
+
+                        .bounding-line-edge {
+                            height: 12px;
+                            width: 2px;
+                        }
+
+                        .left-edge {
+                            left: 0;
+                            top: -5px;
+                        }
+
+                        .right-edge {
+                            right: 0;
+                            top: -5px;
+                        }
+
+                        .bounding-line-size {
+                            left: calc(50% - 25px);
+                            top: -20px;
+                            position: absolute;
+                            width: 50px;
+                            text-align: center;
+                        }
+                    }
+
+                    .left-bounding-line {
+                        width: 2px;
+                        height: 500px;
+                        top: 100px;
+                        left: 50px;
+
+                        .bounding-line-edge {
+                            height: 2px;
+                            width: 12px;
+                        }
+
+                        .top-edge {
+                            left: -5px;
+                            top: 0;
+                        }
+
+                        .bottom-edge {
+                            right: -5px;
+                            bottom: 0;
+                        }
+
+                        .bounding-line-size {
+                            top: calc(50% - 20px);
+                            left: -35px;
+                            position: absolute;
+                            height: 40px;
+                            text-align: center;
+                            padding-right: 10px;
+                        }
+                    }
+                }
+
                 ::ng-deep {
                     .cdk-drag-placeholder {
                         transform: none !important;

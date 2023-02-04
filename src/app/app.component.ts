@@ -227,7 +227,7 @@ export class AppComponent {
             this.addLayoutItem(newItem, event.currentIndex);
 
             setTimeout(() => {
-                this.updateDocument(newItem);
+                this.updateDesignerElement(newItem);
             });
         } else if (event.previousContainer === event.container) {
             let index = this.layoutItems.findIndex(t => t == event.item.data);
@@ -235,11 +235,11 @@ export class AppComponent {
 
             item.top = item.placholderTop;
             item.left = item.placholderLeft;
-            this.updateDocument(item);
+            this.updateDesignerElement(item);
         }
     }
 
-    updateDocument(item: any) {
+    updateDesignerElement(item: any) {
         let index = this.layoutItems.findIndex(t => t == item);
         let id = 'layout-item-' + index;
         let documentElement = document.getElementById(id);
@@ -249,6 +249,12 @@ export class AppComponent {
         documentElement.style.top = item.placholderTop;
         documentElement.style.left = item.placholderLeft;
         item.hidden = false;
+
+        this.updateBoundingLines();
+    }
+
+    updateBoundingLines() {
+
     }
 
     dropOnItemsList(event: any) {
