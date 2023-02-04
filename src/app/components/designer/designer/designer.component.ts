@@ -26,7 +26,8 @@ export class DesignerComponent {
             width: 50,
             height: 50,
             menuItemWidth: 40,
-            menuItemHeight: 40
+            menuItemHeight: 40,
+            price: 75
         },
         {
             name: "Cell 10x5",
@@ -36,7 +37,8 @@ export class DesignerComponent {
             width: 100,
             height: 50,
             menuItemWidth: 75,
-            menuItemHeight: 40
+            menuItemHeight: 40,
+            price: 150
         },
         {
             name: "Cell 10x10",
@@ -46,7 +48,8 @@ export class DesignerComponent {
             width: 100,
             height: 100,
             menuItemWidth: 75,
-            menuItemHeight: 75
+            menuItemHeight: 75,
+            price: 175
         },
         {
             name: "Cell 10x10 grid",
@@ -56,7 +59,8 @@ export class DesignerComponent {
             width: 100,
             height: 100,
             menuItemWidth: 75,
-            menuItemHeight: 75
+            menuItemHeight: 75,
+            price: 225
         },
         {
             name: "Cell 15x5",
@@ -66,7 +70,8 @@ export class DesignerComponent {
             width: 150,
             height: 50,
             menuItemWidth: 87.5,
-            menuItemHeight: 40
+            menuItemHeight: 40,
+            price: 175
         },
         {
             name: "Cell 20x10",
@@ -76,7 +81,8 @@ export class DesignerComponent {
             width: 200,
             height: 100,
             menuItemWidth: 100,
-            menuItemHeight: 75
+            menuItemHeight: 75,
+            price: 200
         },
         {
             name: "Cell 20x20 grid",
@@ -86,7 +92,8 @@ export class DesignerComponent {
             width: 200,
             height: 200,
             menuItemWidth: 100,
-            menuItemHeight: 100
+            menuItemHeight: 100,
+            price: 250
         },
         {
             name: "Squeezebox 5x5",
@@ -96,7 +103,8 @@ export class DesignerComponent {
             width: 50,
             height: 50,
             menuItemWidth: 40,
-            menuItemHeight: 40
+            menuItemHeight: 40,
+            price: 75
         },
         {
             name: "Squeezebox 10x5",
@@ -106,7 +114,8 @@ export class DesignerComponent {
             width: 100,
             height: 50,
             menuItemWidth: 75,
-            menuItemHeight: 40
+            menuItemHeight: 40,
+            price: 150
         },
         {
             name: "Squeezebox 10x10",
@@ -116,7 +125,8 @@ export class DesignerComponent {
             width: 100,
             height: 100,
             menuItemWidth: 75,
-            menuItemHeight: 75
+            menuItemHeight: 75,
+            price: 75
         },
         {
             name: "Squeezebox 20x10",
@@ -126,7 +136,8 @@ export class DesignerComponent {
             width: 200,
             height: 100,
             menuItemWidth: 100,
-            menuItemHeight: 75
+            menuItemHeight: 75,
+            price: 175
         },
         {
             name: "Wave 5x15 twin",
@@ -136,7 +147,8 @@ export class DesignerComponent {
             width: 50,
             height: 150,
             menuItemWidth: 40,
-            menuItemHeight: 87.5
+            menuItemHeight: 87.5,
+            price: 225
         },
         {
             name: "Wave 5x25 twin",
@@ -146,7 +158,8 @@ export class DesignerComponent {
             width: 50,
             height: 250,
             menuItemWidth: 40,
-            menuItemHeight: 112.5
+            menuItemHeight: 112.5,
+            price: 225
         },
         {
             name: "Wave 5x30",
@@ -156,7 +169,8 @@ export class DesignerComponent {
             width: 50,
             height: 300,
             menuItemWidth: 40,
-            menuItemHeight: 125
+            menuItemHeight: 125,
+            price: 250
         }
     ];
     layoutItems: Array<any> = [];
@@ -167,6 +181,9 @@ export class DesignerComponent {
     draggingItem: any| undefined = undefined;
     draggingMode: boolean = false;
     listItemsHovered: boolean = false;
+    price = 0;
+    priceInteger = 0;
+    priceDecimal = 0;
 
     moved(event: CdkDragMove, item: any) {
         this.pointerPosition = event.pointerPosition;
@@ -254,6 +271,10 @@ export class DesignerComponent {
         item.hidden = false;
 
         this.updateBoundingLines();
+
+        this.price = this.layoutItems.reduce((sum, current) => sum + current.price, 0);
+        this.priceInteger = Math.trunc(this.price);
+        this.priceDecimal = this.price - this.priceInteger;
     }
 
     updateBoundingLines() {

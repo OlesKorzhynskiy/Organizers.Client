@@ -28,33 +28,42 @@
                 <h2 class="items-title">Available items</h2>
 
                 <div class="items" [ngClass]="{dragging: draggingMode, hovered: listItemsHovered}" cdkDropList #itemsList="cdkDropList"
-                [cdkDropListConnectedTo]="[layoutList]" (cdkDropListDropped)="dropOnItemsList($event)" id="items-drop-list" (cdkDropListEntered)="itemsListEntered()" (cdkDropListExited)="itemsListExited()">
+                    [cdkDropListConnectedTo]="[layoutList]" (cdkDropListDropped)="dropOnItemsList($event)" id="items-drop-list" (cdkDropListEntered)="itemsListEntered()" (cdkDropListExited)="itemsListExited()">
 
-                <div class="item-block" *ngFor="let item of listItems" [ngClass]="{'selected-item': draggingItem?.type == item.type}">
-                    <div class="list-item" #listItem cdkDragBoundary=".tray" cdkDrag [cdkDragData]="item" (cdkDragMoved)="moved($event, item)"
-                        (mousedown)="onMouseDown($event, listItem)" (cdkDragStarted)="dragStarted(item)" (cdkDragDropped)="dragStopped()">
+                    <div class="item-block" *ngFor="let item of listItems" [ngClass]="{'selected-item': draggingItem?.type == item.type}">
+                        <div class="list-item" #listItem cdkDragBoundary=".tray" cdkDrag [cdkDragData]="item" (cdkDragMoved)="moved($event, item)"
+                            (mousedown)="onMouseDown($event, listItem)" (cdkDragStarted)="dragStarted(item)" (cdkDragDropped)="dragStopped()">
 
-                        <img class="item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.menuItemWidth + 'px'" [style.height]="item.menuItemHeight + 'px'">
+                            <img class="item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.menuItemWidth + 'px'" [style.height]="item.menuItemHeight + 'px'">
 
-                        <ng-container *cdkDragPlaceholder>
-                            <div class="item layout-item placholder-layout-item" [style.top]="item.placholderTop" [style.left]="item.placholderLeft">
-                                <img class="item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.width + 'px'" [style.height]="item.height + 'px'">
-                            </div>
-                        </ng-container>
+                            <ng-container *cdkDragPlaceholder>
+                                <div class="item layout-item placholder-layout-item" [style.top]="item.placholderTop" [style.left]="item.placholderLeft">
+                                    <img class="item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.width + 'px'" [style.height]="item.height + 'px'">
+                                </div>
+                            </ng-container>
+                        </div>
+
+                        <div class="list-item list-item-placeholder" [ngClass]="{shown: draggingItem == item}" >
+                            <img class="item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.menuItemWidth + 'px'" [style.height]="item.menuItemHeight + 'px'">
+                        </div>
+
+                        <span class="item-title">{{item.name}}</span>
                     </div>
+                </div>
 
-                    <div class="list-item list-item-placeholder" [ngClass]="{shown: draggingItem == item}" >
-                        <img class="item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.menuItemWidth + 'px'" [style.height]="item.menuItemHeight + 'px'">
-                    </div>
-
-                    <span class="item-title">{{item.name}}</span>
+                <div class="trash" [ngClass]="{hovered: listItemsHovered}" *ngIf="draggingMode">
+                    <img src="assets/trash.png" alt="trash">
                 </div>
             </div>
+        </div>
 
-            <div class="trash" [ngClass]="{hovered: listItemsHovered}" *ngIf="draggingMode">
-                <img src="assets/trash.png" alt="trash">
-            </div>
-            </div>
+        <div class="layout-footer">
+            <span class="price">
+                <span class="currency">₴</span>
+                <span class="integer-part">{{ priceInteger }}</span>
+                <span class="decimal-part">.{{ priceDecimal | number: '2.0' }}</span>
+            </span>
+            <button class="summary-button">Summary</button>
         </div>
     </div>
 </div>
