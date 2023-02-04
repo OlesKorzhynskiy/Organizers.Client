@@ -1,8 +1,9 @@
 import { CdkDragMove } from '@angular/cdk/drag-drop';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { BlockItem } from 'src/app/models/block-item';
 import { Point } from 'src/app/models/point';
 import { AllocationService } from 'src/app/services/allocation.service';
+import { BoundingLineService } from 'src/app/services/bounding-line.service';
 
 @Component({
     selector: 'app-designer',
@@ -12,7 +13,7 @@ import { AllocationService } from 'src/app/services/allocation.service';
 export class DesignerComponent {
     @ViewChild('layoutDropZone', { read: ElementRef, static: true }) layoutDropZone!: ElementRef;
 
-    constructor(private allocationService: AllocationService) {
+    constructor(private allocationService: AllocationService, private boundingLineService: BoundingLineService) {
 
     }
 
@@ -211,6 +212,8 @@ export class DesignerComponent {
         } else {
             item.image = item.image.replace('/rotated', '');
         }
+
+        this.updateBoundingLines();
     }
 
     swapDimensions(a: any, b: any) {
@@ -254,7 +257,8 @@ export class DesignerComponent {
     }
 
     updateBoundingLines() {
-
+        let blockItems = this.layoutItems.map(item => new BlockItem(new Point(parseInt(item.left), parseInt(item.top)), item.width, item.height));
+        this.boundingLineService.calculateBoundingLines(blockItems);
     }
 
     dropOnItemsList(event: any) {
@@ -264,6 +268,8 @@ export class DesignerComponent {
 
         let index = this.layoutItems.findIndex(item => item == event.item.data);
         this.layoutItems.splice(index, 1);
+
+        this.updateBoundingLines();
     }
 
     addLayoutItem(item: any, index: number) {

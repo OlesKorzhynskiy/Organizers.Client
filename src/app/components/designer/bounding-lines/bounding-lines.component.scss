@@ -1,18 +1,15 @@
 .bounding-line {
     position: absolute;
-    background-color: gray;
+    background-color: rgb(223, 223, 223);
 
     .bounding-line-edge {
         position: absolute;
-        background-color: gray;
+        background-color: rgb(223, 223, 223);
     }
 }
 
 .top-bounding-line {
     height: 2px;
-    width: 500px;
-    top: 50px;
-    left: 100px;
 
     .bounding-line-edge {
         height: 12px;
@@ -40,9 +37,6 @@
 
 .left-bounding-line {
     width: 2px;
-    height: 500px;
-    top: 100px;
-    left: 50px;
 
     .bounding-line-edge {
         height: 2px;
