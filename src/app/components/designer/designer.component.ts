@@ -1,5 +1,6 @@
 import { CdkDragMove } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { BlockItem } from 'src/app/models/block-item';
 import { Point } from 'src/app/models/point';
 import { AllocationService } from 'src/app/services/allocation.service';
@@ -13,13 +14,15 @@ import { BoundingLineService } from 'src/app/services/bounding-line.service';
 export class DesignerComponent {
     @ViewChild('layoutDropZone', { read: ElementRef, static: true }) layoutDropZone!: ElementRef;
 
-    constructor(private allocationService: AllocationService, private boundingLineService: BoundingLineService) {
+    constructor(private allocationService: AllocationService,
+        private boundingLineService: BoundingLineService, private router: Router) {
 
     }
 
     listItems: Array<any> = [
         {
             name: "Cell 5x5",
+            title: "Блок 5x5",
             image: "assets/blocks/C5x5.png",
             alt: "Cell 5x5",
             type: "Cell5x5",
@@ -31,6 +34,7 @@ export class DesignerComponent {
         },
         {
             name: "Cell 10x5",
+            title: "Блок 10x5",
             image: "assets/blocks/C10x5.png",
             alt: "Cell 10x5",
             type: "Cell10x5",
@@ -42,6 +46,7 @@ export class DesignerComponent {
         },
         {
             name: "Cell 10x10",
+            title: "Блок 10x10",
             image: "assets/blocks/C10x10.png",
             alt: "Cell 10x10",
             type: "Cell10x10",
@@ -53,6 +58,7 @@ export class DesignerComponent {
         },
         {
             name: "Cell 10x10 grid",
+            title: "Блок 10x10 грід",
             image: "assets/blocks/C10x10grid.png",
             alt: "Cell 10x10 grid",
             type: "Cell10x10grid",
@@ -64,6 +70,7 @@ export class DesignerComponent {
         },
         {
             name: "Cell 15x5",
+            title: "Блок 15x15",
             image: "assets/blocks/C15x5.png",
             alt: "Cell 15x5",
             type: "Cell15x5",
@@ -75,6 +82,7 @@ export class DesignerComponent {
         },
         {
             name: "Cell 20x10",
+            title: "Блок 20x10",
             image: "assets/blocks/C20x10.png",
             alt: "Cell 20x10",
             type: "Cell20x10",
@@ -86,6 +94,7 @@ export class DesignerComponent {
         },
         {
             name: "Cell 20x20 grid",
+            title: "Блок 20x20 грід",
             image: "assets/blocks/C20x20grid.png",
             alt: "Cell 20x20 grid",
             type: "Cell20x20grid",
@@ -97,6 +106,7 @@ export class DesignerComponent {
         },
         {
             name: "Squeezebox 5x5",
+            title: "Блок 5x5 гармошка",
             image: "assets/blocks/S5x5.png",
             alt: "Squeezebox 5x5",
             type: "Squeezebox5x5",
@@ -108,6 +118,7 @@ export class DesignerComponent {
         },
         {
             name: "Squeezebox 10x5",
+            title: "Блок 10x5 гармошка",
             image: "assets/blocks/S10x5.png",
             alt: "Squeezebox 10x5",
             type: "Squeezebox10x5",
@@ -119,6 +130,7 @@ export class DesignerComponent {
         },
         {
             name: "Squeezebox 10x10",
+            title: "Блок 10x10 гармошка",
             image: "assets/blocks/S10x10.png",
             alt: "Squeezebox 10x10",
             type: "Squeezebox10x10",
@@ -130,6 +142,7 @@ export class DesignerComponent {
         },
         {
             name: "Squeezebox 20x10",
+            title: "Блок 20x10 гармошка",
             image: "assets/blocks/S20x10.png",
             alt: "Squeezebox 20x10",
             type: "Squeezebox20x10",
@@ -141,6 +154,7 @@ export class DesignerComponent {
         },
         {
             name: "Wave 5x15 twin",
+            title: "Блок 5x15 хвиля",
             image: "assets/blocks/W5x15twin.png",
             alt: "Wave 5x15 twin",
             type: "Wave5x15 twin",
@@ -152,6 +166,7 @@ export class DesignerComponent {
         },
         {
             name: "Wave 5x25 twin",
+            title: "Блок 5x25 хвиля",
             image: "assets/blocks/W5x25twin.png",
             alt: "Wave 5x25 twin",
             type: "Wave5x25 twin",
@@ -163,6 +178,7 @@ export class DesignerComponent {
         },
         {
             name: "Wave 5x30",
+            title: "Блок 5x30 хвиля",
             image: "assets/blocks/W5x30.png",
             alt: "Wave 5x30",
             type: "Wave5x30",
@@ -184,6 +200,11 @@ export class DesignerComponent {
     price = 0;
     priceInteger = 0;
     priceDecimal = 0;
+
+    summary() {
+        localStorage.setItem('checkout-items', JSON.stringify(this.layoutItems));
+        this.router.navigate(['checkout']);
+    }
 
     moved(event: CdkDragMove, item: any) {
         this.pointerPosition = event.pointerPosition;

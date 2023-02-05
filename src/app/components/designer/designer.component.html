@@ -1,8 +1,6 @@
-<div class="designer">
-    <div class="header">
-        <h2 class="title">Designer</h2>
-    </div>
+<h2 class="page-title">Дизайнер</h2>
 
+<div class="designer">
     <div class="tray-wrapper">
         <div class="tray">
             <div class="layout-wrapper">
@@ -63,7 +61,7 @@
                 <span class="integer-part">{{ priceInteger }}</span>
                 <span class="decimal-part">.{{ priceDecimal | number: '2.0' }}</span>
             </span>
-            <button class="summary-button">Summary</button>
+            <button class="summary-button" (click)="summary()">Summary</button>
         </div>
     </div>
 </div>

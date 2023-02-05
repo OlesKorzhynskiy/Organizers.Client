@@ -1,0 +1,60 @@
+<h2 class="page-title">Оформлення замовлення</h2>
+
+<div class="layout">
+    <div class="user-information">
+        <div class="group-header">
+            <img class="group-image" src="assets/tick.jpg" alt="tick">
+            Контактні дані
+        </div>
+        <div class="group-information">
+            <div class="input-group">
+                <label for="phone">
+                    Телефон
+                </label>
+                <input id="phone" placeholder="Телефон" type="tel" required>
+            </div>
+
+            <div class="input-group">
+                <label for="last-name">Прізвище</label>
+                <input id="last-name" placeholder="Прізвище" type="text" required>
+            </div>
+
+            <div class="input-group">
+                <label for="first-name">Ім'я</label>
+                <input id="first-name" placeholder="Ім'я" type="tel" required>
+            </div>
+        </div>
+
+        <div class="group-header">
+            <img class="group-image" src="assets/tick.jpg" alt="tick">
+            Доставка
+        </div>
+        <div class="group-information">
+
+        </div>
+
+        <div class="group-header">
+            <img class="group-image" src="assets/tick.jpg" alt="tick">
+            Оплата
+        </div>
+        <div class="group-information">
+
+        </div>
+    </div>
+
+    <div class="order-confirmation">
+        <div class="group-header">
+            Ваше замовлення
+        </div>
+        <div class="group-information">
+            <div class="order-item" *ngFor="let item of items">
+                <img [src]="item.image" [alt]="item.alt" class="item-image">
+                <div class="item-data">
+                    <span class="item-name">{{ item.title }}</span>
+                    <span class="item-quantity">{{ item.quantity }}</span>
+                    <span class="item-price">{{ item.price }} грн</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

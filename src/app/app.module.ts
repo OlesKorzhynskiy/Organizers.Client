@@ -5,15 +5,17 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { DesignerComponent } from './components/designer/designer/designer.component';
 import { BoundingLinesComponent } from './components/designer/bounding-lines/bounding-lines.component';
 import { APP_ROUTES } from './app.routes';
+import { CheckoutComponent } from './components/checkout/checkout.component';
+import { DesignerComponent } from './components/designer/designer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DesignerComponent,
-    BoundingLinesComponent
+    BoundingLinesComponent,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,
