@@ -1,25 +1,28 @@
 import { CdkDragMove } from '@angular/cdk/drag-drop';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BlockItem } from 'src/app/models/block-item';
 import { Point } from 'src/app/models/point';
-import { AllocationService } from 'src/app/services/allocation.service';
-import { BoundingLineService } from 'src/app/services/bounding-line.service';
+import { AllocationService } from 'src/app/components/designer/services/allocation.service';
+import { BoundingLineService } from './services/bounding-line.service';
 
 @Component({
     selector: 'app-designer',
     templateUrl: './designer.component.html',
     styleUrls: ['./designer.component.scss']
 })
-export class DesignerComponent {
-    @ViewChild('layoutDropZone', { read: ElementRef, static: true }) layoutDropZone!: ElementRef;
+export class DesignerComponent implements OnInit {
+    @ViewChild('previewDropZone', { read: ElementRef, static: true }) previewDropZone!: ElementRef;
 
     constructor(private allocationService: AllocationService,
         private boundingLineService: BoundingLineService, private router: Router) {
 
     }
+    ngOnInit(): void {
+        this.updateBoundingLines();
+    }
 
-    listItems: Array<any> = [
+    menuItems: Array<any> = [
         {
             name: "Cell 5x5",
             title: "Блок 5x5",
@@ -189,20 +192,21 @@ export class DesignerComponent {
             price: 250
         }
     ];
-    layoutItems: Array<any> = [];
+    previewItems: Array<any> = [];
 
     pointerPosition: any;
     pointerShiftX: any;
     pointerShiftY: any;
     draggingItem: any| undefined = undefined;
     draggingMode: boolean = false;
-    listItemsHovered: boolean = false;
+    menuItemsHovered: boolean = false;
+
     price = 0;
     priceInteger = 0;
     priceDecimal = 0;
 
-    summary() {
-        localStorage.setItem('checkout-items', JSON.stringify(this.layoutItems));
+    checkout() {
+        localStorage.setItem('checkout-items', JSON.stringify(this.previewItems));
         this.router.navigate(['checkout']);
     }
 
@@ -212,9 +216,9 @@ export class DesignerComponent {
         item.placholderTop = this.getPlaceholderTopPosition();
         item.placholderLeft = this.getPlaceholderLeftPosition();
 
-        let blockItems = this.layoutItems.filter(i => i != item).map(item => new BlockItem(new Point(parseInt(item.left), parseInt(item.top)), item.width, item.height));
+        let blockItems = this.previewItems.filter(i => i != item).map(item => new BlockItem(new Point(parseInt(item.left), parseInt(item.top)), item.width, item.height));
         let blockItem = new BlockItem(new Point(parseInt(item.placholderLeft), parseInt(item.placholderTop)), item.width, item.height);
-        let newPosition = this.allocationService.findClosestPosition(blockItems, blockItem, this.layoutDropZone.nativeElement.offsetWidth, this.layoutDropZone.nativeElement.offsetHeight);
+        let newPosition = this.allocationService.findClosestPosition(blockItems, blockItem, this.previewDropZone.nativeElement.offsetWidth, this.previewDropZone.nativeElement.offsetHeight);
 
         if (newPosition) {
             item.placholderTop = newPosition.y + 'px';
@@ -224,13 +228,13 @@ export class DesignerComponent {
 
     getPlaceholderTopPosition() {
         let absoluteY = this.pointerPosition.y - this.pointerShiftY;
-        let itemY = absoluteY - this.layoutDropZone.nativeElement.getBoundingClientRect().top;
+        let itemY = absoluteY - this.previewDropZone.nativeElement.getBoundingClientRect().top;
         return itemY + 'px';
     }
 
     getPlaceholderLeftPosition() {
         let absoluteX = this.pointerPosition.x - this.pointerShiftX;
-        let itemX = absoluteX - this.layoutDropZone.nativeElement.getBoundingClientRect().left;
+        let itemX = absoluteX - this.previewDropZone.nativeElement.getBoundingClientRect().left;
         return itemX + 'px';
     }
 
@@ -245,11 +249,10 @@ export class DesignerComponent {
         item.rotated = item.rotated ? false : true;
 
         // TODO: replace with transform: rotate so the new image won't be loaded
-        if (item.rotated) {
+        if (item.rotated)
             item.image = item.image.replace('blocks', 'blocks/rotated')
-        } else {
+        else
             item.image = item.image.replace('/rotated', '');
-        }
 
         this.updateBoundingLines();
     }
@@ -260,29 +263,41 @@ export class DesignerComponent {
         b.height = temp;
     }
 
-    dropOnLayout(event: any) {
-        if (event.previousContainer.id == "items-drop-list") {
-            event.item.data.top = event.item.data.placholderTop;
-            event.item.data.left = event.item.data.placholderLeft;
-            let newItem = { ...event.item.data, hidden: true };
-            this.addLayoutItem(newItem, event.currentIndex);
+    dropOnPreview(event: any) {
+        if (event.previousContainer.id == "menu-items-drop-list") {
+           this.dropOnPreviewFromMenu(event);
+           return;
+        }
 
-            setTimeout(() => {
-                this.updateDesignerElement(newItem);
-            });
-        } else if (event.previousContainer === event.container) {
-            let index = this.layoutItems.findIndex(t => t == event.item.data);
-            let item = this.layoutItems[index];
-
-            item.top = item.placholderTop;
-            item.left = item.placholderLeft;
-            this.updateDesignerElement(item);
+        if (event.previousContainer === event.container) {
+            this.moveOnPreview(event);
+            return;
         }
     }
 
-    updateDesignerElement(item: any) {
-        let index = this.layoutItems.findIndex(t => t == item);
-        let id = 'layout-item-' + index;
+    dropOnPreviewFromMenu(event: any) {
+        event.item.data.top = event.item.data.placholderTop;
+        event.item.data.left = event.item.data.placholderLeft;
+        let newItem = { ...event.item.data, hidden: true };
+        this.addPreviewItem(newItem, event.currentIndex);
+
+        setTimeout(() => {
+            this.updateDesignerElement(newItem);
+        });
+    }
+
+    moveOnPreview(event: any) {
+        let index = this.previewItems.findIndex(t => t == event.item.data);
+        let item = this.previewItems[index];
+
+        item.top = item.placholderTop;
+        item.left = item.placholderLeft;
+        this.updateDesignerElement(item);
+    }
+
+    private updateDesignerElement(item: any) {
+        let index = this.previewItems.findIndex(t => t == item);
+        let id = 'block-item-' + index;
         let documentElement = document.getElementById(id);
         if (!documentElement)
             return;
@@ -293,29 +308,23 @@ export class DesignerComponent {
 
         this.updateBoundingLines();
 
-        this.price = this.layoutItems.reduce((sum, current) => sum + current.price, 0);
-        this.priceInteger = Math.trunc(this.price);
-        this.priceDecimal = this.price - this.priceInteger;
+        this.updatePrice();
     }
 
-    updateBoundingLines() {
-        let blockItems = this.layoutItems.map(item => new BlockItem(new Point(parseInt(item.left), parseInt(item.top)), item.width, item.height));
-        this.boundingLineService.calculateBoundingLines(blockItems);
-    }
-
-    dropOnItemsList(event: any) {
-        if (event.previousContainer.id == "items-drop-list") {
+    dropOnMenuList(event: any) {
+        if (event.previousContainer.id == "menu-items-drop-list") {
             return;
         }
 
-        let index = this.layoutItems.findIndex(item => item == event.item.data);
-        this.layoutItems.splice(index, 1);
+        let index = this.previewItems.findIndex(item => item == event.item.data);
+        this.previewItems.splice(index, 1);
 
         this.updateBoundingLines();
+        this.updatePrice();
     }
 
-    addLayoutItem(item: any, index: number) {
-        this.layoutItems.splice(index, 0, item);
+    addPreviewItem(item: any, index: number) {
+        this.previewItems.splice(index, 0, item);
     }
 
     dragStarted(element: any) {
@@ -326,7 +335,7 @@ export class DesignerComponent {
         previewItem.style.width = element.width + 'px';
         previewItem.style.height = element.height + 'px';
 
-        let image = previewItem.querySelector('.item-image');
+        let image = previewItem.querySelector('.block-item-image');
         image.style.width = element.width + 'px';
         image.style.height = element.height + 'px';
     }
@@ -336,11 +345,22 @@ export class DesignerComponent {
         this.draggingItem = undefined;
     }
 
-    itemsListEntered() {
-        this.listItemsHovered = true;
+    menuListEntered() {
+        this.menuItemsHovered = true;
     }
 
-    itemsListExited() {
-        this.listItemsHovered = false;
+    menuListExited() {
+        this.menuItemsHovered = false;
+    }
+
+    updateBoundingLines() {
+        let blockItems = this.previewItems.map(item => new BlockItem(new Point(parseInt(item.left), parseInt(item.top)), item.width, item.height));
+        this.boundingLineService.calculateBoundingLines(blockItems);
+    }
+
+    updatePrice() {
+        this.price = this.previewItems.reduce((sum, current) => sum + current.price, 0);
+        this.priceInteger = Math.trunc(this.price);
+        this.priceDecimal = this.price - this.priceInteger;
     }
 }

@@ -1,45 +1,60 @@
-.input-group {
-    margin-bottom: 15px;
+@import "variables.scss";
 
-    label {
-        font-size: 14px;
-        display: block;
-    }
-
-    input {
-        box-sizing: border-box;
-        border-radius: 8px;
-        border: 1px solid rgb(223, 223, 223);
-        padding: 10px;
-        width: 100%;
-        outline: none;
-    }
-}
-
-.layout {
+.order-form {
     display: flex;
 
     .group-header {
-        font-weight: 700;
+        font-weight: $big-font-weight;
         align-items: center;
         display: flex;
-        margin-bottom: 8px;
+        margin-bottom: $defaul-bottom-margin;
 
         .group-image {
             width: 16px;
-            margin-right: 8px;
+            margin-right: $small-side-margin;
         }
     }
 
     .group-information {
-        padding: 25px;
-        border: 1px solid rgb(223, 223, 223);
-        margin-bottom: 16px;
+        padding: $group-block-padding;
+        border: 1px solid $gray1-color;
+        margin-bottom: $group-bottom-margin;
+
+        mat-radio-group {
+            padding-bottom: $group-field-bottom-padding;
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        mat-form-field {
+            width: 100%;
+        }
     }
 }
 
 .user-information {
     width: 48%;
+
+    .delivery-title {
+        display: flex;
+        padding-bottom: $group-field-bottom-padding;
+
+        img {
+            width: 36px;
+            height: 36px;
+            margin-right: $small-side-margin;
+        }
+
+        .delivery-title-text {
+            display: flex;
+            flex-direction: column;
+
+            .delivery-price {
+                color: $gray-text-color;
+                font-size: $default-font-size;
+            }
+        }
+    }
 }
 
 .order-confirmation {
@@ -53,12 +68,13 @@
 
     .order-item {
         display: flex;
-        margin-bottom: 20px;
+        margin-bottom: $group-bottom-margin;
         flex: 50%;
 
         .item-image {
             height: 70px;
-            margin-right: 10px;
+            max-width: 180px;
+            margin-right: $small-side-margin;
         }
 
         .item-data {
@@ -66,21 +82,36 @@
             flex-direction: column;
 
             span {
-                margin-bottom: 5px;
+                margin-bottom: $defaul-bottom-margin;
             }
 
             .item-name {
-                font-size: 14px;
-                font-weight: 400;
+                font-size: $default-font-size;
+                font-weight: $small-font-weight;
             }
 
             .item-quantity {
-                color: gray;
+                color: $gray-text-color;
             }
 
             .item-price {
-                font-weight: 700;
+                font-weight: $big-font-weight;
             }
+        }
+    }
+}
+
+::ng-deep {
+    .settlement-short-type {
+        margin-right: $small-side-margin;
+    }
+
+    .mat-option.warehouse-option {
+        overflow: initial;
+
+        .mat-option-text {
+            overflow: initial;
+            text-overflow: unset;
         }
     }
 }

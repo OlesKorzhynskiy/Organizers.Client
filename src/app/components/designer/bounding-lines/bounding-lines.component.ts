@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BoundingLineService } from 'src/app/services/bounding-line.service';
+import { BoundingLineService } from '../services/bounding-line.service';
 
 @Component({
     selector: 'app-bounding-lines',

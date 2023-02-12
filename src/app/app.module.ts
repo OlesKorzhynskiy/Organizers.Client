@@ -9,6 +9,12 @@ import { BoundingLinesComponent } from './components/designer/bounding-lines/bou
 import { APP_ROUTES } from './app.routes';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { DesignerComponent } from './components/designer/designer.component';
+import { SharedModule } from './shared/shared.module';
+import { CoreModule } from './core/core.module';
+import { ApiModule } from './api/api-module.module';
+import { environment } from 'src/environments/environment';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -21,9 +27,16 @@ import { DesignerComponent } from './components/designer/designer.component';
     BrowserModule,
     DragDropModule,
     BrowserAnimationsModule,
+    SharedModule,
+    CoreModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ApiModule.forRoot({ rootUrl: environment.gatewayUrl }),
     RouterModule.forRoot(APP_ROUTES)
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_RADIO_DEFAULT_OPTIONS, useValue: { color: 'primary' } }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

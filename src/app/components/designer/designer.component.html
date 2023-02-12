@@ -1,67 +1,64 @@
 <h2 class="page-title">Дизайнер</h2>
 
 <div class="designer">
-    <div class="tray-wrapper">
-        <div class="tray">
-            <div class="layout-wrapper">
-                <div class="layout" #layoutDropZone cdkDropListSortingDisabled cdkDropList (cdkDropListDropped)="dropOnLayout($event)" #layoutList="cdkDropList" [cdkDropListConnectedTo]="[itemsList]">
-                    <app-bounding-lines></app-bounding-lines>
+    <div class="designer-checkout">
+        <span class="price">
+            <span class="currency">₴</span>
+            <span class="integer-part">{{ priceInteger }}</span>
+            <span class="decimal-part">.{{ priceDecimal | number: '2.0' }}</span>
+        </span>
+        <button class="checkout-button" (click)="checkout()">Checkout</button>
+    </div>
 
-                    <div [id]="'layout-item-' + i" class="item layout-item" *ngFor="let item of layoutItems; let i = index" #layoutItem cdkDragBoundary=".tray" cdkDrag [cdkDragData]="item"
-                        [style.z-index]="i" [style.display]="item.hidden ? 'none' : 'flex'" (mousedown)="onMouseDown($event, layoutItem)" (click)="rotate(item)"
-                        (cdkDragStarted)="dragStarted(item)" (cdkDragDropped)="dragStopped()" (cdkDragMoved)="moved($event, item)">
+    <div class="dragging-zone">
+        <div class="items-preview-block" #previewDropZone #previewList="cdkDropList" cdkDropListSortingDisabled cdkDropList (cdkDropListDropped)="dropOnPreview($event)" [cdkDropListConnectedTo]="[menuList]">
+            <app-bounding-lines></app-bounding-lines>
 
-                        <img class="item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.width + 'px'" [style.height]="item.height + 'px'">
+            <div [id]="'block-item-' + i" class="block-item" *ngFor="let item of previewItems; let i = index" #previewItem cdkDragBoundary=".dragging-zone" cdkDrag [cdkDragData]="item"
+                [style.z-index]="i" [style.display]="item.hidden ? 'none' : 'flex'" (mousedown)="onMouseDown($event, previewItem)" (click)="rotate(item)"
+                (cdkDragStarted)="dragStarted(item)" (cdkDragDropped)="dragStopped()" (cdkDragMoved)="moved($event, item)">
+
+                <img class="block-item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.width + 'px'" [style.height]="item.height + 'px'">
+
+                <ng-container *cdkDragPlaceholder>
+                    <div class="block-item placholder-block-item" [style.top]="item.placholderTop" [style.left]="item.placholderLeft">
+                        <img class="block-item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.width + 'px'" [style.height]="item.height + 'px'">
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="items-menu-block">
+            <h2 class="items-menu-title">Available items</h2>
+
+            <div class="menu-items" [ngClass]="{dragging: draggingMode, hovered: menuItemsHovered}" cdkDropList #menuList="cdkDropList"
+                [cdkDropListConnectedTo]="[previewList]" (cdkDropListDropped)="dropOnMenuList($event)" id="menu-items-drop-list" (cdkDropListEntered)="menuListEntered()" (cdkDropListExited)="menuListExited()">
+
+                <div class="menu-item-wrapper" *ngFor="let item of menuItems" [ngClass]="{'selected-item': draggingItem?.type == item.type}">
+                    <div class="menu-item" #menuItem cdkDragBoundary=".dragging-zone" cdkDrag [cdkDragData]="item" (cdkDragMoved)="moved($event, item)"
+                        (mousedown)="onMouseDown($event, menuItem)" (cdkDragStarted)="dragStarted(item)" (cdkDragDropped)="dragStopped()">
+
+                        <img class="block-item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.menuItemWidth + 'px'" [style.height]="item.menuItemHeight + 'px'">
 
                         <ng-container *cdkDragPlaceholder>
-                            <div class="item layout-item placholder-layout-item" [style.top]="item.placholderTop" [style.left]="item.placholderLeft">
-                                <img class="item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.width + 'px'" [style.height]="item.height + 'px'">
+                            <div class="block-item placholder-block-item" [style.top]="item.placholderTop" [style.left]="item.placholderLeft">
+                                <img class="block-item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.width + 'px'" [style.height]="item.height + 'px'">
                             </div>
                         </ng-container>
                     </div>
-                </div>
-            </div>
 
-            <div class="items-block">
-                <h2 class="items-title">Available items</h2>
-
-                <div class="items" [ngClass]="{dragging: draggingMode, hovered: listItemsHovered}" cdkDropList #itemsList="cdkDropList"
-                    [cdkDropListConnectedTo]="[layoutList]" (cdkDropListDropped)="dropOnItemsList($event)" id="items-drop-list" (cdkDropListEntered)="itemsListEntered()" (cdkDropListExited)="itemsListExited()">
-
-                    <div class="item-block" *ngFor="let item of listItems" [ngClass]="{'selected-item': draggingItem?.type == item.type}">
-                        <div class="list-item" #listItem cdkDragBoundary=".tray" cdkDrag [cdkDragData]="item" (cdkDragMoved)="moved($event, item)"
-                            (mousedown)="onMouseDown($event, listItem)" (cdkDragStarted)="dragStarted(item)" (cdkDragDropped)="dragStopped()">
-
-                            <img class="item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.menuItemWidth + 'px'" [style.height]="item.menuItemHeight + 'px'">
-
-                            <ng-container *cdkDragPlaceholder>
-                                <div class="item layout-item placholder-layout-item" [style.top]="item.placholderTop" [style.left]="item.placholderLeft">
-                                    <img class="item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.width + 'px'" [style.height]="item.height + 'px'">
-                                </div>
-                            </ng-container>
-                        </div>
-
-                        <div class="list-item list-item-placeholder" [ngClass]="{shown: draggingItem == item}" >
-                            <img class="item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.menuItemWidth + 'px'" [style.height]="item.menuItemHeight + 'px'">
-                        </div>
-
-                        <span class="item-title">{{item.name}}</span>
+                    <div class="menu-item menu-item-placeholder" [ngClass]="{shown: draggingItem == item}" >
+                        <img class="block-item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.menuItemWidth + 'px'" [style.height]="item.menuItemHeight + 'px'">
                     </div>
-                </div>
 
-                <div class="trash" [ngClass]="{hovered: listItemsHovered}" *ngIf="draggingMode">
-                    <img src="assets/trash.png" alt="trash">
+                    <span class="item-title">{{item.name}}</span>
                 </div>
             </div>
-        </div>
 
-        <div class="layout-footer">
-            <span class="price">
-                <span class="currency">₴</span>
-                <span class="integer-part">{{ priceInteger }}</span>
-                <span class="decimal-part">.{{ priceDecimal | number: '2.0' }}</span>
-            </span>
-            <button class="summary-button" (click)="summary()">Summary</button>
+            <div class="trash" [ngClass]="{hovered: menuItemsHovered}" *ngIf="draggingMode">
+                <img src="assets/trash.png" alt="trash">
+            </div>
         </div>
     </div>
 </div>
+

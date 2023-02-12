@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { BlockItem } from "../models/block-item";
-import { Point } from "../models/point";
+import { BlockItem } from "../../../models/block-item";
+import { Point } from "../../../models/point";
 
 @Injectable({
     providedIn: 'root'
@@ -8,7 +8,7 @@ import { Point } from "../models/point";
 export class AllocationService {
     sideMargin: number = 50;
 
-    findClosestPosition(items: BlockItem[], item: BlockItem, layoutWidth: number, layoutHeight: number): Point | null {
+    findClosestPosition(items: BlockItem[], item: BlockItem, previewZoneWidth: number, previewZoneHeight: number): Point | null {
         let closestPoints: any[] = [];
         let insideAnotherBlock = this.isInterceptOtherBlocks(item, items);
 
@@ -28,7 +28,7 @@ export class AllocationService {
 
         for (let i = 0; i < closestPoints.length; i++) {
             let closestPoint = closestPoints[i];
-            if (!this.isValid(closestPoint, item, layoutWidth, layoutHeight))
+            if (!this.isValid(closestPoint, item, previewZoneWidth, previewZoneHeight))
                 continue;
 
             let blockItem = new BlockItem(closestPoint.point, item.width, item.height);
@@ -41,14 +41,14 @@ export class AllocationService {
         return null;
     }
 
-    isValid(closestPoint: any, item: BlockItem, layoutWidth: number, layoutHeight: number): boolean {
+    isValid(closestPoint: any, item: BlockItem, previewZoneWidth: number, previewZoneHeight: number): boolean {
         if (!closestPoint)
             return false;
 
         if (closestPoint.point.x < 0 || closestPoint.point.y < 0)
             return false;
 
-        if (closestPoint.point.x + item.width > layoutWidth || closestPoint.point.y + item.height > layoutHeight)
+        if (closestPoint.point.x + item.width > previewZoneWidth || closestPoint.point.y + item.height > previewZoneHeight)
             return false;
 
         return true;

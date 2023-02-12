@@ -1,10 +1,12 @@
+@import "variables.scss";
+
 .bounding-line {
     position: absolute;
-    background-color: rgb(223, 223, 223);
+    background-color: $gray1-color;
 
     .bounding-line-edge {
         position: absolute;
-        background-color: rgb(223, 223, 223);
+        background-color: $gray1-color;
     }
 }
 

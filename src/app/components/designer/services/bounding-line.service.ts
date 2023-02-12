@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { BlockItem } from "../models/block-item";
-import { Point } from "../models/point";
+import { BlockItem } from "src/app/models/block-item";
+import { Point } from "src/app/models/point";
 
 @Injectable({
     providedIn: 'root'
