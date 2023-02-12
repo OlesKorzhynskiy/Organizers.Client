@@ -6,6 +6,7 @@ import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
 import { SettlementsService } from './services/settlements.service';
 import { WarehousesService } from './services/warehouse.service';
 import { DeliveriesService } from './services/deliveries.service';
+import { OrdersService } from './services/order.service';
 
 @NgModule({
     imports: [],
@@ -15,6 +16,7 @@ import { DeliveriesService } from './services/deliveries.service';
         DeliveriesService,
         SettlementsService,
         WarehousesService,
+        OrdersService,
         ApiConfiguration,
         {
             provide: HTTP_INTERCEPTORS,

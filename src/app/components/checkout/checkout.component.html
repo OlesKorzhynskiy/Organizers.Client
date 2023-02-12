@@ -7,7 +7,7 @@
                 <img class="group-image" src="assets/tick.jpg" alt="tick">
                 Контактні дані
             </div>
-            <div class="group-information">
+            <div class="group-information" formGroupName="contact">
                 <mat-form-field>
                     <input matInput formControlName="phone" placeholder="Телефон" type="tel">
                 </mat-form-field>
@@ -81,30 +81,53 @@
                 </mat-form-field>
             </div>
         </div>
-
-        <div class="group payment-group">
-            <div class="group-header">
-                <img class="group-image" src="assets/tick.jpg" alt="tick">
-                Оплата
-            </div>
-            <div class="group-information">
-
-            </div>
-        </div>
     </div>
 
     <div class="order-confirmation">
-        <div class="group-header">
-            Ваше замовлення
-        </div>
-        <div class="group-information">
-            <div class="order-item" *ngFor="let item of items">
-                <img [src]="item.image" [alt]="item.alt" class="item-image">
-                <div class="item-data">
-                    <span class="item-name">{{ item.title }}</span>
-                    <span class="item-quantity">{{ item.quantity }}</span>
-                    <span class="item-price">{{ item.price }} грн</span>
+        <div class="group order-review">
+            <div class="group-header">
+                Ваше замовлення
+            </div>
+            <div class="group-information">
+                <div class="order-item" *ngFor="let item of items">
+                    <img [src]="item.image" [alt]="item.alt" class="item-image">
+                    <div class="item-data">
+                        <span class="item-name">{{ item.title }}</span>
+                        <span class="item-quantity">{{ item.quantity }}</span>
+                        <span class="item-price">{{ item.price }} грн</span>
+                    </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="group order-creation">
+            <div class="group-header">
+                Оформлення
+            </div>
+            <div class="group-information">
+                <div class="payment-type-group">
+                    <div class="payment-type">Виберіть тип оплати:</div>
+                    <mat-radio-group formControlName="paymentType">
+                        <mat-radio-button [value]="0">Накладний платіж</mat-radio-button>
+                        <mat-radio-button [value]="1">Liq pay</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+
+                <div class="order-confirmation-text">
+                    <div class="delivery-details">
+                        <span>Доставка Нова Пошта</span>
+                        <span>від 50 грн</span>
+                    </div>
+                    <div *ngIf="discount" class="discount-details">
+                        <span>Знижка:</span>
+                        <span>{{ discount }} грн</span>
+                    </div>
+                    <div class="summary-details">
+                        <span>До оплати без доставки</span>
+                        <span>{{ price }} грн</span>
+                    </div>
+                </div>
+                <button type="button" class="confirm-order-button" (click)="onSave()" [disabled]="!orderForm.valid || isCreatingOrder">Оформити замовлення</button>
             </div>
         </div>
     </div>

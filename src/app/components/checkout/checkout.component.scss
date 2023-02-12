@@ -61,41 +61,94 @@
     width: 48%;
     margin-left: 4%;
 
-    .group-information {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .order-item {
-        display: flex;
-        margin-bottom: $group-bottom-margin;
-        flex: 50%;
-
-        .item-image {
-            height: 70px;
-            max-width: 180px;
-            margin-right: $small-side-margin;
+    .order-review {
+        .group-information {
+            display: flex;
+            flex-wrap: wrap;
         }
 
-        .item-data {
+        .order-item {
             display: flex;
-            flex-direction: column;
+            margin-bottom: $group-bottom-margin;
+            flex: 50%;
 
-            span {
+            .item-image {
+                height: 70px;
+                max-width: 180px;
+                margin-right: $small-side-margin;
+            }
+
+            .item-data {
+                display: flex;
+                flex-direction: column;
+
+                span {
+                    margin-bottom: $defaul-bottom-margin;
+                }
+
+                .item-name {
+                    font-size: $default-font-size;
+                    font-weight: $small-font-weight;
+                }
+
+                .item-quantity {
+                    color: $gray-text-color;
+                }
+
+                .item-price {
+                    font-weight: $big-font-weight;
+                }
+            }
+        }
+    }
+
+    .order-creation {
+        .payment-type-group {
+            .payment-type {
+                font-size: $bigger-font-size;
+                font-weight: $big-font-weight;
+                margin-bottom: $defaul-bottom-margin;
+            }
+        }
+
+        .order-confirmation-text {
+            > div {
+                display: flex;
+                justify-content: space-between;
                 margin-bottom: $defaul-bottom-margin;
             }
 
-            .item-name {
-                font-size: $default-font-size;
+            .delivery-details {
                 font-weight: $small-font-weight;
             }
 
-            .item-quantity {
-                color: $gray-text-color;
+            .discount-details {
+                color: $green-color;
             }
 
-            .item-price {
+            .summary-details {
                 font-weight: $big-font-weight;
+            }
+        }
+
+        .confirm-order-button {
+            display: block;
+            height: 2.5rem;
+            border-radius: 4rem;
+            cursor: pointer;
+            border: 0;
+            font-weight: 700;
+            background: #673ab7;
+            color: white;
+            padding: 0 2rem;
+            width: 100%;
+            margin-top: 10px;
+
+            &:disabled {
+                color: $black-color;
+                background-color: $gray1-color;
+                font-weight: $small-font-weight;
+                cursor: initial;
             }
         }
     }

@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { filter, distinctUntilChanged, debounceTime, tap, switchMap, finalize, Subject, takeUntil } from 'rxjs';
 import { DeliveryResponse } from 'src/app/api/models/Deliveries/delivery-response';
 
 import { SettlementResponse } from 'src/app/api/models/Settlements/settlement-response';
 import { WarehouseResponse } from 'src/app/api/models/Warehouses/warehouse-response';
 import { DeliveriesService } from 'src/app/api/services/deliveries.service';
+import { OrdersService } from 'src/app/api/services/order.service';
 import { SettlementsService } from 'src/app/api/services/settlements.service';
 import { WarehousesService } from 'src/app/api/services/warehouse.service';
 
@@ -32,13 +33,18 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     warehouses: WarehouseResponse[] = [];
     warehouse: WarehouseResponse | null = null;
 
+    isCreatingOrder = false;
+    discount = 38;
+    price = 0;
+
     private readonly unsubscribe: Subject<void> = new Subject();
 
     constructor(
         private formBuilder: UntypedFormBuilder,
         private settlementsService: SettlementsService,
         private warehousesService: WarehousesService,
-        private deliveriesService: DeliveriesService) {
+        private deliveriesService: DeliveriesService,
+        private ordersService: OrdersService) {
     }
 
     ngOnInit(): void {
@@ -47,9 +53,12 @@ export class CheckoutComponent implements OnInit, OnDestroy {
             settlementId: ['', [Validators.required]],
             warehouse: ['', [Validators.required, (control: AbstractControl) => this.warehouse != null ? null : {warehouse: {value: control.value}}]],
             warehouseId: ['', [Validators.required]],
-            phone: ['', [Validators.required]],
-            lastName: ['', [Validators.required]],
-            firstName: ['', [Validators.required]]
+            contact: this.formBuilder.group({
+                phone: ['', [Validators.required]],
+                lastName: ['', [Validators.required]],
+                firstName: ['', [Validators.required]]
+            }),
+            paymentType: [0, [Validators.required]]
         });
 
         this.fetchDeliveries();
@@ -87,6 +96,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
             return group;
         }, []);
+
+        this.price = items.reduce((sum: number, current: any) => sum + current.price, 0);
     }
 
     initAutocomplete(): void {
@@ -175,7 +186,13 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
 
     onSave(): void {
-        if (!this.orderForm.valid || !this.settlement)
+        if (!this.orderForm.valid)
             return;
+
+        this.isCreatingOrder = true;
+        this.ordersService.create(this.orderForm.value).subscribe(result => {
+            this.isCreatingOrder = false;
+            console.log(result);
+        });
     }
 }
