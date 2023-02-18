@@ -1,14 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { filter, distinctUntilChanged, debounceTime, tap, switchMap, finalize, Subject, takeUntil } from 'rxjs';
-import { DeliveryResponse } from 'src/app/api/models/Deliveries/delivery-response';
 
-import { SettlementResponse } from 'src/app/api/models/Settlements/settlement-response';
-import { WarehouseResponse } from 'src/app/api/models/Warehouses/warehouse-response';
+import { DeliveryResponse } from 'src/app/api/models/deliveries/delivery-response';
+import { SettlementResponse } from 'src/app/api/models/settlements/settlement-response';
+import { WarehouseResponse } from 'src/app/api/models/warehouses/warehouse-response';
 import { DeliveriesService } from 'src/app/api/services/deliveries.service';
-import { OrdersService } from 'src/app/api/services/order.service';
+import { OrdersService } from 'src/app/api/services/orders.service';
 import { SettlementsService } from 'src/app/api/services/settlements.service';
 import { WarehousesService } from 'src/app/api/services/warehouse.service';
+import { OrderCreationResponse } from 'src/app/api/models/orders/order-creation-response';
+import { CreateOrderRequest } from 'src/app/api/models/orders/create-order-request';
+import { PaymentType } from 'src/app/api/models/orders/payment-type';
 
 @Component({
     selector: 'app-checkout',
@@ -16,6 +19,8 @@ import { WarehousesService } from 'src/app/api/services/warehouse.service';
     styleUrls: ['./checkout.component.scss']
 })
 export class CheckoutComponent implements OnInit, OnDestroy {
+    @ViewChild('paymentForm', { read: ElementRef, static: false }) paymentForm!: ElementRef;
+
     orderForm!: UntypedFormGroup;
     items: any[] = [];
 
@@ -33,9 +38,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     warehouses: WarehouseResponse[] = [];
     warehouse: WarehouseResponse | null = null;
 
-    isCreatingOrder = false;
-    discount = 38;
     price = 0;
+    discount = 0;
+    isCreatingOrder = false;
 
     private readonly unsubscribe: Subject<void> = new Subject();
 
@@ -190,9 +195,28 @@ export class CheckoutComponent implements OnInit, OnDestroy {
             return;
 
         this.isCreatingOrder = true;
-        this.ordersService.create(this.orderForm.value).subscribe(result => {
-            this.isCreatingOrder = false;
-            console.log(result);
-        });
+        let request: CreateOrderRequest = {
+            ...this.orderForm.value,
+            items: this.items
+        };
+        this.ordersService.create(request).subscribe(result => {
+            if (request.paymentType == PaymentType.LiqPay)
+                this.completeLiqPayment(result.response);
+
+            // TODO: else redirect
+        }, error => this.isCreatingOrder = false);
+    }
+
+    completeLiqPayment(orderResponse: OrderCreationResponse) {
+        if (!orderResponse.payment)
+            return;
+
+        let payment = orderResponse.payment;
+
+        let form = this.paymentForm.nativeElement;
+        form['data'].value = payment.data;
+        form['signature'].value = payment.signature;
+
+        this.paymentForm.nativeElement.submit();
     }
 }

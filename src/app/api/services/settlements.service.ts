@@ -6,12 +6,12 @@ import { map } from 'rxjs/operators';
 import { ApiConfiguration } from '../api-configuration';
 import { ApiServiceBase } from './api-base-service';
 import { WebApiResponse } from '../models/web-api-response';
-import { SettlementResponse } from '../models/Settlements/settlement-response';
+import { SettlementResponse } from '../models/settlements/settlement-response';
 
 @Injectable()
 export class SettlementsService extends ApiServiceBase {
     constructor(config: ApiConfiguration, http: HttpClient) {
-        super(config, http, '');
+        super(config.rootUrl, http, '');
     }
 
     getAll(deliveryId: string, name: string): Observable<WebApiResponse<Array<SettlementResponse>>> {

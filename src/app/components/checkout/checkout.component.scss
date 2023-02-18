@@ -154,6 +154,10 @@
     }
 }
 
+#payment-form {
+    display: none;
+}
+
 ::ng-deep {
     .settlement-short-type {
         margin-right: $small-side-margin;

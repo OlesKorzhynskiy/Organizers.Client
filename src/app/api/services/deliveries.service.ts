@@ -6,12 +6,12 @@ import { map } from 'rxjs/operators';
 import { ApiConfiguration } from '../api-configuration';
 import { ApiServiceBase } from './api-base-service';
 import { WebApiResponse } from '../models/web-api-response';
-import { DeliveryResponse } from '../models/Deliveries/delivery-response';
+import { DeliveryResponse } from '../models/deliveries/delivery-response';
 
 @Injectable()
 export class DeliveriesService extends ApiServiceBase {
     constructor(config: ApiConfiguration, http: HttpClient) {
-        super(config, http, '/deliveries');
+        super(config.rootUrl, http, '/deliveries');
     }
 
     getAll(): Observable<WebApiResponse<Array<DeliveryResponse>>> {

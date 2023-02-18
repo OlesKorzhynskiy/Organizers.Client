@@ -1,11 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 
-import { ApiConfiguration } from '../api-configuration';
-
 export class ApiServiceBase {
     readonly apiEndpoint: string;
 
-    constructor(protected config: ApiConfiguration, protected http: HttpClient, apiUrl: string) {
-        this.apiEndpoint = `${config.rootUrl}${apiUrl}`;
+    constructor(protected rootUrl: string, protected http: HttpClient, apiUrl: string = '') {
+        this.apiEndpoint = `${rootUrl}${apiUrl}`;
     }
 }

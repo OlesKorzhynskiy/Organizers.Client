@@ -125,10 +125,10 @@ export class DesignerComponent implements OnInit {
             image: "assets/blocks/S10x5.png",
             alt: "Squeezebox 10x5",
             type: "Squeezebox10x5",
-            width: 100,
-            height: 50,
-            menuItemWidth: 75,
-            menuItemHeight: 40,
+            width: 50,
+            height: 100,
+            menuItemWidth: 40,
+            menuItemHeight: 75,
             price: 150
         },
         {
@@ -149,10 +149,10 @@ export class DesignerComponent implements OnInit {
             image: "assets/blocks/S20x10.png",
             alt: "Squeezebox 20x10",
             type: "Squeezebox20x10",
-            width: 200,
-            height: 100,
-            menuItemWidth: 100,
-            menuItemHeight: 75,
+            width: 100,
+            height: 200,
+            menuItemWidth: 75,
+            menuItemHeight: 100,
             price: 175
         },
         {

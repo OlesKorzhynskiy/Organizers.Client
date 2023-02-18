@@ -132,3 +132,8 @@
         </div>
     </div>
 </form>
+
+<form ngNoForm id="payment-form" method="POST" action="https://www.liqpay.ua/api/3/checkout" #paymentForm>
+    <input type="hidden" name="data" value=""/>
+    <input type="hidden" name="signature" value=""/>
+</form>

@@ -15,13 +15,15 @@ import { ApiModule } from './api/api-module.module';
 import { environment } from 'src/environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/radio';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DesignerComponent,
     BoundingLinesComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +33,7 @@ import { MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/radio';
     CoreModule,
     FormsModule,
     ReactiveFormsModule,
-    ApiModule.forRoot({ rootUrl: environment.gatewayUrl }),
+    ApiModule.forRoot({ rootUrl: environment.gatewayUrl, paymentRootUrl: environment.paymentUrl }),
     RouterModule.forRoot(APP_ROUTES)
   ],
   providers: [

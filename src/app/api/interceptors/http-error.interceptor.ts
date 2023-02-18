@@ -14,9 +14,11 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(
             catchError((response: HttpErrorResponse) => {
                 let error = response.error as WebApiProblemDetails;
-                this.notificationService.error(error.statusCode, error.title);
+                let errorMessage = error.title ?? response.statusText;
 
-                return throwError(error.title);
+                this.notificationService.error(error.statusCode, errorMessage);
+
+                return throwError(errorMessage);
             }));
     }
 }
