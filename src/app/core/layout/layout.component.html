@@ -1,0 +1,61 @@
+<header>
+    <ul class="header-menu">
+        <li class="header-item"><a routerLink="/designer" routerLinkActive="active">Designer</a></li>
+        <li class="header-item"><a routerLink="/faq" routerLinkActive="active">FAQ</a></li>
+
+        <li class="header-logo"><a routerLink="/" routerLinkActive="active">That Organizer</a></li>
+
+        <li class="header-item"><a routerLink="/about-us" routerLinkActive="active">About Us</a></li>
+        <li class="header-item"><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
+    </ul>
+</header>
+
+<div class="content">
+    <ng-content></ng-content>
+</div>
+
+<footer>
+    <div class="footer-wrapper">
+        <div class="footer-logo">
+            <a routerLink="/" routerLinkActive="active">That Organizer</a>
+        </div>
+
+        <div class="footer-block">
+            <div class="footer-email-block">
+                <span>oles.korzhynskiy@gmail.com</span>
+            </div>
+            <div class="footer-menu-block">
+                <ul class="footer-menu-items">
+                    <li><a routerLink="/designer" routerLinkActive="active">Designer</a></li>
+                    <li><a routerLink="/faq" routerLinkActive="active">FAQ</a></li>
+                    <li><a routerLink="/about-us" routerLinkActive="active">About Us</a></li>
+                    <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-subscribe-block">
+                <p><strong>Sign up to save 15% off.</strong> Be the first to hear about new products, exciting news, and exclusive discounts.</p>
+                <form>
+                    <div class="group-information" formGroupName="contact">
+                        <mat-form-field>
+                            <input matInput placeholder="Email" type="email">
+                        </mat-form-field>
+                    </div>
+                </form>
+                <ul class="social-media-items">
+                    <li>
+                        <a href="https://instagram.com" title="That Organizer on Instagram">
+                            <img src="assets/instagram.png" alt="Instagram">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://pinterest.com" title="That Organizer on Pinterest">
+                            <img src="assets/pinterest.png" alt="Pinterest">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <p class="footer-copyright-text">© 2023 That Organizer</p>
+    </div>
+</footer>
