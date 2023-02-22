@@ -1,14 +1,21 @@
 @import "variables.scss";
 
 .order-form {
-    display: flex;
-    margin: 0 10px;
+    max-width: 1500px;
+
+    .page-section {
+        flex-direction: row;
+        align-items: unset;
+        display: flex;
+        width: 100%;
+    }
 
     .group-header {
-        font-weight: $big-font-weight;
+        font-weight: $page-title-font-weight;
         align-items: center;
         display: flex;
         margin-bottom: $defaul-bottom-margin;
+        font-size: $menu-font-size;
 
         .group-image {
             width: 16px;
@@ -73,15 +80,20 @@
             margin-bottom: $group-bottom-margin;
             flex: 50%;
 
-            .item-image {
-                height: 70px;
-                max-width: 180px;
-                margin-right: $small-side-margin;
+            .item-image-block {
+                width: 100px;
+
+                .item-image {
+                    height: 70px;
+                    margin-right: $small-side-margin;
+                }
             }
 
             .item-data {
                 display: flex;
                 flex-direction: column;
+                align-items: baseline;
+                margin-left: 10px;
 
                 span {
                     margin-bottom: $defaul-bottom-margin;
@@ -108,7 +120,7 @@
             .payment-type {
                 font-size: $bigger-font-size;
                 font-weight: $big-font-weight;
-                margin-bottom: $defaul-bottom-margin;
+                margin-bottom: 10px;
             }
         }
 
@@ -133,24 +145,7 @@
         }
 
         .confirm-order-button {
-            display: block;
-            height: 2.5rem;
-            border-radius: 4rem;
-            cursor: pointer;
-            border: 0;
-            font-weight: 700;
-            background: #673ab7;
-            color: white;
-            padding: 0 2rem;
-            width: 100%;
             margin-top: 10px;
-
-            &:disabled {
-                color: $black-color;
-                background-color: $gray1-color;
-                font-weight: $small-font-weight;
-                cursor: initial;
-            }
         }
     }
 }

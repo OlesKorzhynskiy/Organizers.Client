@@ -1,131 +1,135 @@
-<form class="order-form" (ngSubmit)="onSave()" [formGroup]="orderForm">
-    <div class="user-information">
-        <div class="group contact-group">
-            <div class="group-header">
-                <img class="group-image" src="assets/tick.jpg" alt="tick">
-                Контактні дані
-            </div>
-            <div class="group-information" formGroupName="contact">
-                <mat-form-field>
-                    <input matInput formControlName="phone" placeholder="Телефон" type="tel">
-                </mat-form-field>
+<form class="order-form page" (ngSubmit)="onSave()" [formGroup]="orderForm">
+    <h1 class="page-header">Checkout</h1>
 
-                <mat-form-field>
-                    <input matInput formControlName="lastName" placeholder="Прізвище" type="text">
-                </mat-form-field>
-
-                <mat-form-field>
-                    <input matInput formControlName="firstName" placeholder="Ім'я" type="text">
-                </mat-form-field>
-            </div>
-        </div>
-
-        <div class="group delivery-group" *ngIf="delivery">
-            <div class="group-header">
-                <img class="group-image" src="assets/tick.jpg" alt="tick">
-                Доставка
-            </div>
-            <div class="group-information">
-                <div class="delivery-title">
-                    <div>
-                        <img src="assets/nova-poshta-delivery.png" alt="Нова пошта">
-                    </div>
-                    <div class="delivery-title-text">
-                        <span>Нова пошта</span>
-                        <span class="delivery-price">від 50 грн</span>
-                    </div>
+    <div class="page-section">
+        <div class="user-information">
+            <div class="group contact-group">
+                <div class="group-header">
+                    Контактні дані
                 </div>
+                <div class="group-information" formGroupName="contact">
+                    <mat-form-field>
+                        <input matInput formControlName="phone" placeholder="Телефон" type="tel">
+                    </mat-form-field>
 
-                <mat-radio-group class="warehouse-type-group">
-                    <mat-radio-button (change)="onWarehouseTypeSelected($event.value)" value="відділення" checked>Відділення</mat-radio-button>
-                    <mat-radio-button (change)="onWarehouseTypeSelected($event.value)" value="поштомат">Поштомат</mat-radio-button>
-                </mat-radio-group>
+                    <mat-form-field>
+                        <input matInput formControlName="lastName" placeholder="Прізвище" type="text">
+                    </mat-form-field>
 
-                <mat-form-field class="settlement-group">
-                    <input matInput id="settlement" placeholder="Населений пункт" formControlName="settlement" [matAutocomplete]="settlementsAutocomplete" required (input)="clearSettlement()">
-
-                    <button *ngIf="orderForm.get('settlement')?.value" matSuffix mat-icon-button aria-label="Clear" type="button" (click)="clearSettlementSelection()">
-                        <mat-icon>close</mat-icon>
-                    </button>
-
-                    <mat-autocomplete #settlementsAutocomplete="matAutocomplete" (optionSelected)="onSettlementSelected($event.option.value)">
-                        <mat-option *ngIf="isSettlementsLoading" class="is-loading">Loading...</mat-option>
-
-                        <ng-container *ngIf="!isSettlementsLoading">
-                            <mat-option *ngFor="let settlement of settlements" [value]="settlement">
-                                <span class="settlement-short-type">{{ settlement.shortSettlementTypeDescription }}</span>
-                                <span>{{settlement.name}} ({{settlement.areaDescription}})</span>
-                            </mat-option>
-                        </ng-container>
-                    </mat-autocomplete>
-                </mat-form-field>
-
-                <mat-form-field class="warehouse-group" *ngIf="settlement">
-                    <input matInput id="warehouse" placeholder="Відділення" formControlName="warehouse" [matAutocomplete]="warehousesAutocomplete" required (input)="clearWarehouse()">
-
-                    <button *ngIf="orderForm.get('warehouse')?.value" matSuffix mat-icon-button aria-label="Clear" type="button" (click)="clearWarehouseSelection()">
-                        <mat-icon>close</mat-icon>
-                    </button>
-
-                    <mat-autocomplete #warehousesAutocomplete="matAutocomplete" (optionSelected)="onWarehouseSelected($event.option.value)">
-                        <mat-option *ngIf="isWarehousesLoading" class="is-loading">Loading...</mat-option>
-
-                        <ng-container *ngIf="!isWarehousesLoading">
-                            <mat-option *ngFor="let warehouse of warehouses" [value]="warehouse" class="warehouse-option">
-                                {{ warehouse.name }}
-                            </mat-option>
-                        </ng-container>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
-        </div>
-    </div>
-
-    <div class="order-confirmation">
-        <div class="group order-review">
-            <div class="group-header">
-                Ваше замовлення
-            </div>
-            <div class="group-information">
-                <div class="order-item" *ngFor="let item of items">
-                    <img [src]="item.image" [alt]="item.alt" class="item-image">
-                    <div class="item-data">
-                        <span class="item-name">{{ item.title }}</span>
-                        <span class="item-quantity">{{ item.quantity }}</span>
-                        <span class="item-price">{{ item.price }} грн</span>
-                    </div>
+                    <mat-form-field>
+                        <input matInput formControlName="firstName" placeholder="Ім'я" type="text">
+                    </mat-form-field>
                 </div>
             </div>
-        </div>
 
-        <div class="group order-creation">
-            <div class="group-header">
-                Оформлення
-            </div>
-            <div class="group-information">
-                <div class="payment-type-group">
-                    <div class="payment-type">Виберіть тип оплати:</div>
-                    <mat-radio-group formControlName="paymentType">
-                        <mat-radio-button [value]="0">Накладний платіж</mat-radio-button>
-                        <mat-radio-button [value]="1">Liq pay</mat-radio-button>
+            <div class="group delivery-group" *ngIf="delivery">
+                <div class="group-header">
+                    Доставка
+                </div>
+                <div class="group-information">
+                    <div class="delivery-title">
+                        <div>
+                            <img src="assets/nova-poshta-delivery.png" alt="Нова пошта">
+                        </div>
+                        <div class="delivery-title-text">
+                            <span>Нова пошта</span>
+                            <span class="delivery-price">від 50 грн</span>
+                        </div>
+                    </div>
+
+                    <mat-radio-group class="warehouse-type-group">
+                        <mat-radio-button (change)="onWarehouseTypeSelected($event.value)" value="відділення" checked>Відділення</mat-radio-button>
+                        <mat-radio-button (change)="onWarehouseTypeSelected($event.value)" value="поштомат">Поштомат</mat-radio-button>
                     </mat-radio-group>
-                </div>
 
-                <div class="order-confirmation-text">
-                    <div class="delivery-details">
-                        <span>Доставка Нова Пошта</span>
-                        <span>від 50 грн</span>
-                    </div>
-                    <div *ngIf="discount" class="discount-details">
-                        <span>Знижка:</span>
-                        <span>{{ discount }} грн</span>
-                    </div>
-                    <div class="summary-details">
-                        <span>До оплати без доставки</span>
-                        <span>{{ price }} грн</span>
+                    <mat-form-field class="settlement-group">
+                        <input matInput id="settlement" placeholder="Населений пункт" formControlName="settlement" [matAutocomplete]="settlementsAutocomplete" required (input)="clearSettlement()">
+
+                        <button *ngIf="orderForm.get('settlement')?.value" matSuffix mat-icon-button aria-label="Clear" type="button" (click)="clearSettlementSelection()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+
+                        <mat-autocomplete #settlementsAutocomplete="matAutocomplete" (optionSelected)="onSettlementSelected($event.option.value)">
+                            <mat-option *ngIf="isSettlementsLoading" class="is-loading">Loading...</mat-option>
+
+                            <ng-container *ngIf="!isSettlementsLoading">
+                                <mat-option *ngFor="let settlement of settlements" [value]="settlement">
+                                    <span class="settlement-short-type">{{ settlement.shortSettlementTypeDescription }}</span>
+                                    <span>{{settlement.name}} ({{settlement.areaDescription}})</span>
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                    <mat-form-field class="warehouse-group" *ngIf="settlement">
+                        <input matInput id="warehouse" placeholder="Відділення" formControlName="warehouse" [matAutocomplete]="warehousesAutocomplete" required (input)="clearWarehouse()">
+
+                        <button *ngIf="orderForm.get('warehouse')?.value" matSuffix mat-icon-button aria-label="Clear" type="button" (click)="clearWarehouseSelection()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+
+                        <mat-autocomplete #warehousesAutocomplete="matAutocomplete" (optionSelected)="onWarehouseSelected($event.option.value)">
+                            <mat-option *ngIf="isWarehousesLoading" class="is-loading">Loading...</mat-option>
+
+                            <ng-container *ngIf="!isWarehousesLoading">
+                                <mat-option *ngFor="let warehouse of warehouses" [value]="warehouse" class="warehouse-option">
+                                    {{ warehouse.name }}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <div class="order-confirmation">
+            <div class="group order-review">
+                <div class="group-header">
+                    Ваше замовлення
+                </div>
+                <div class="group-information">
+                    <div class="order-item" *ngFor="let item of items">
+                        <div class="item-image-block">
+                            <img [src]="item.image" [alt]="item.alt" class="item-image">
+                        </div>
+                        <div class="item-data">
+                            <span class="item-name">{{ item.title }}</span>
+                            <span class="item-quantity">{{ item.quantity }}</span>
+                            <span class="item-price">{{ item.price }} грн</span>
+                        </div>
                     </div>
                 </div>
-                <button type="button" class="confirm-order-button" (click)="onSave()" [disabled]="!orderForm.valid || isCreatingOrder">Оформити замовлення</button>
+            </div>
+
+            <div class="group order-creation">
+                <div class="group-header">
+                    Оформлення
+                </div>
+                <div class="group-information">
+                    <div class="payment-type-group">
+                        <div class="payment-type">Виберіть тип оплати:</div>
+                        <mat-radio-group formControlName="paymentType">
+                            <mat-radio-button [value]="0">Накладний платіж</mat-radio-button>
+                            <mat-radio-button [value]="1">Liq pay</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div class="order-confirmation-text">
+                        <div class="delivery-details">
+                            <span>Доставка Нова Пошта</span>
+                            <span>від 50 грн</span>
+                        </div>
+                        <div *ngIf="discount" class="discount-details">
+                            <span>Знижка:</span>
+                            <span>{{ discount }} грн</span>
+                        </div>
+                        <div class="summary-details">
+                            <span>До оплати без доставки</span>
+                            <span>{{ price }} грн</span>
+                        </div>
+                    </div>
+                    <button type="button" class="confirm-order-button default-submit-button" (click)="onSave()" [disabled]="!orderForm.valid || isCreatingOrder">Оформити замовлення</button>
+                </div>
             </div>
         </div>
     </div>

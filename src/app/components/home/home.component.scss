@@ -1,8 +1,80 @@
-.home-image {
+@import "variables.scss";
+
+.home-page-banner {
     height: 700px;
     display: flex;
     align-items: center;
     background-image: url("/assets/home-image.webp");
     background-position: center center;
     background-size: cover;
+}
+
+.page {
+    padding-top: 0;
+
+    .page-section {
+        width: 100%;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+}
+
+.products-section {
+    .product-container{
+        display: flex;
+        margin-bottom: $group-field-bottom-padding;
+        min-height: 500px;
+
+        .product-details-block {
+            width: 50%;
+            padding: 0 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            .product-title {
+                margin-bottom: $group-field-bottom-padding;
+                font-size: $menu-font-size;
+                font-weight: $page-title-font-weight;
+            }
+
+            .product-details {
+                margin-bottom: $group-field-bottom-padding;
+                text-align: left;
+            }
+
+            .more-products-button {
+                margin-top: 10px;
+            }
+        }
+
+        .product-image {
+            width: 50%;
+
+            img {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.design-items-section {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+
+    .carousel {
+        .swiper-button-next, .swiper-button-prev {
+            color: $gray1-color;
+        }
+
+        ::ng-deep .swiper-pagination-bullet {
+            background-color: $gray1-color;
+        }
+
+        .swiper-button-disabled {
+            display: none;
+        }
+    }
 }

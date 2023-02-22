@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
     imports: [
@@ -23,7 +24,8 @@ import { MatRadioModule } from '@angular/material/radio';
         MatIconModule,
         MatTooltipModule,
         MatCheckboxModule,
-        MatRadioModule
+        MatRadioModule,
+        MatExpansionModule
     ],
     exports: [
         NgxSpinnerModule,
@@ -35,7 +37,8 @@ import { MatRadioModule } from '@angular/material/radio';
         MatIconModule,
         MatTooltipModule,
         MatCheckboxModule,
-        MatRadioModule
+        MatRadioModule,
+        MatExpansionModule
     ],
     providers: []
 })

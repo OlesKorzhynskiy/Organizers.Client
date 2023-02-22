@@ -1,11 +1,10 @@
 @import "variables.scss";
 
 .designer {
-    border: 1px solid $gray1-color;
     padding-top: 60px;
     padding-left: 70px;
     position: relative;
-    margin: 0 10px;
+    margin: 10px;
 
     .designer-checkout {
         position: absolute;
@@ -33,18 +32,6 @@
                 font-size: $bigger-font-size;
                 position: relative;
             }
-        }
-
-        .checkout-button {
-            height: 2.5rem;
-            border-radius: 4rem;
-            cursor: pointer;
-            border: 0;
-            font-weight: $big-font-weight;
-            background: $main-color;
-            color: white;
-            padding: $button-padding;
-            width: 100%;
         }
     }
 }
@@ -94,23 +81,42 @@
         .items-menu-title {
             text-align: center;
             padding: $header-text-padding;
-            border-left: 1px solid $gray1-color;
+            border-left: 1px solid $gray-border-color;
+            border-bottom: 1px solid $gray-border-color;
             margin: 0;
         }
 
-        .menu-items {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
+        .menu-items-accordion {
             transition: opacity 1s ease-in-out;
             background-color: white;
             outline: none;
             height: 100%;
             position: relative;
             width: 320px;
-            height: 798px;
+            height: 807px;
             overflow: hidden scroll;
-            border-left: 1px solid $gray1-color;
+            border-left: 1px solid $gray-border-color;
+            display: block;
+
+            .mat-expansion-panel {
+                box-shadow: unset;
+
+                .mat-expansion-panel-header {
+                    border-style: solid;
+                    border-width: 0 0 1px;
+                    border-color: $gray-border-color;
+                }
+            }
+
+            .mat-expansion-panel-spacing {
+                margin: 0;
+            }
+
+            .menu-item-group {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
 
             .menu-item-wrapper {
                 .menu-item {

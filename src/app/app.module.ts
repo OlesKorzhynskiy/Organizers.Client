@@ -16,6 +16,10 @@ import { environment } from 'src/environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/radio';
 import { HomeComponent } from './components/home/home.component';
+import { AboutUsComponent } from './components/about-us/about-us.component';
+import { FaqComponent } from './components/faq/faq.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,10 @@ import { HomeComponent } from './components/home/home.component';
     DesignerComponent,
     BoundingLinesComponent,
     CheckoutComponent,
-    HomeComponent
+    HomeComponent,
+    AboutUsComponent,
+    FaqComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,
@@ -33,6 +40,7 @@ import { HomeComponent } from './components/home/home.component';
     CoreModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxUsefulSwiperModule,
     ApiModule.forRoot({ rootUrl: environment.gatewayUrl, paymentRootUrl: environment.paymentUrl }),
     RouterModule.forRoot(APP_ROUTES)
   ],

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { SwiperOptions } from 'swiper';
 
 @Component({
     selector: 'app-home',
@@ -10,6 +11,23 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 })
 export class HomeComponent implements OnInit, OnDestroy {
     private readonly unsubscribe: Subject<void> = new Subject();
+
+    images: Array<string> = [
+       "/assets/home-image.webp",
+       "/assets/home-image.webp",
+       "/assets/home-image.webp"
+    ]
+    config: SwiperOptions = {
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+        },
+        spaceBetween: 30
+    };
 
     constructor(private notificationService: NotificationService, private route: ActivatedRoute) { }
 

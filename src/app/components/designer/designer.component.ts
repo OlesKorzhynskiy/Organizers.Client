@@ -1,195 +1,214 @@
 import { CdkDragMove } from '@angular/cdk/drag-drop';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BlockItem } from 'src/app/models/block-item';
 import { Point } from 'src/app/models/point';
 import { AllocationService } from 'src/app/components/designer/services/allocation.service';
 import { BoundingLineService } from './services/bounding-line.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-designer',
     templateUrl: './designer.component.html',
     styleUrls: ['./designer.component.scss']
 })
-export class DesignerComponent implements OnInit {
+export class DesignerComponent implements OnInit, OnDestroy {
     @ViewChild('previewDropZone', { read: ElementRef, static: true }) previewDropZone!: ElementRef;
 
-    constructor(private allocationService: AllocationService,
-        private boundingLineService: BoundingLineService, private router: Router) {
+    private readonly unsubscribe: Subject<void> = new Subject();
 
-    }
-    ngOnInit(): void {
-        this.updateBoundingLines();
+    constructor(private allocationService: AllocationService, private router: Router,
+        private route: ActivatedRoute, private boundingLineService: BoundingLineService) {
+            this.route.queryParams.pipe(takeUntil(this.unsubscribe)).subscribe((params: any) => {
+                this.expandedGroupName = params['expandedGroupName'] ?? null;
+            });
     }
 
-    menuItems: Array<any> = [
+    expandedGroupName: string | null = null;
+    menuGroups: Array<any> = [
         {
-            name: "Cell 5x5",
-            title: "Блок 5x5",
-            image: "assets/blocks/C5x5.png",
-            alt: "Cell 5x5",
-            type: "Cell5x5",
-            width: 50,
-            height: 50,
-            menuItemWidth: 40,
-            menuItemHeight: 40,
-            price: 75
+            name: "Cells", title: "Cells", items: [
+                {
+                    name: "Cell 5x5",
+                    title: "Блок 5x5",
+                    image: "assets/blocks/C5x5.png",
+                    alt: "Cell 5x5",
+                    type: "Cell5x5",
+                    width: 50,
+                    height: 50,
+                    menuItemWidth: 40,
+                    menuItemHeight: 40,
+                    price: 75
+                },
+                {
+                    name: "Cell 10x5",
+                    title: "Блок 10x5",
+                    image: "assets/blocks/C10x5.png",
+                    alt: "Cell 10x5",
+                    type: "Cell10x5",
+                    width: 100,
+                    height: 50,
+                    menuItemWidth: 75,
+                    menuItemHeight: 40,
+                    price: 150
+                },
+                {
+                    name: "Cell 10x10",
+                    title: "Блок 10x10",
+                    image: "assets/blocks/C10x10.png",
+                    alt: "Cell 10x10",
+                    type: "Cell10x10",
+                    width: 100,
+                    height: 100,
+                    menuItemWidth: 75,
+                    menuItemHeight: 75,
+                    price: 175
+                },
+                {
+                    name: "Cell 15x5",
+                    title: "Блок 15x15",
+                    image: "assets/blocks/C15x5.png",
+                    alt: "Cell 15x5",
+                    type: "Cell15x5",
+                    width: 150,
+                    height: 50,
+                    menuItemWidth: 87.5,
+                    menuItemHeight: 40,
+                    price: 175
+                },
+                {
+                    name: "Cell 20x10",
+                    title: "Блок 20x10",
+                    image: "assets/blocks/C20x10.png",
+                    alt: "Cell 20x10",
+                    type: "Cell20x10",
+                    width: 200,
+                    height: 100,
+                    menuItemWidth: 100,
+                    menuItemHeight: 75,
+                    price: 200
+                }
+            ]
         },
         {
-            name: "Cell 10x5",
-            title: "Блок 10x5",
-            image: "assets/blocks/C10x5.png",
-            alt: "Cell 10x5",
-            type: "Cell10x5",
-            width: 100,
-            height: 50,
-            menuItemWidth: 75,
-            menuItemHeight: 40,
-            price: 150
+            name: "Squeezeboxes", title: "Squeezeboxes", items: [
+                {
+                    name: "Squeezebox 5x5",
+                    title: "Блок 5x5 гармошка",
+                    image: "assets/blocks/S5x5.png",
+                    alt: "Squeezebox 5x5",
+                    type: "Squeezebox5x5",
+                    width: 50,
+                    height: 50,
+                    menuItemWidth: 40,
+                    menuItemHeight: 40,
+                    price: 75
+                },
+                {
+                    name: "Squeezebox 10x5",
+                    title: "Блок 10x5 гармошка",
+                    image: "assets/blocks/S10x5.png",
+                    alt: "Squeezebox 10x5",
+                    type: "Squeezebox10x5",
+                    width: 50,
+                    height: 100,
+                    menuItemWidth: 40,
+                    menuItemHeight: 75,
+                    price: 150
+                },
+                {
+                    name: "Squeezebox 10x10",
+                    title: "Блок 10x10 гармошка",
+                    image: "assets/blocks/S10x10.png",
+                    alt: "Squeezebox 10x10",
+                    type: "Squeezebox10x10",
+                    width: 100,
+                    height: 100,
+                    menuItemWidth: 75,
+                    menuItemHeight: 75,
+                    price: 75
+                },
+                {
+                    name: "Squeezebox 20x10",
+                    title: "Блок 20x10 гармошка",
+                    image: "assets/blocks/S20x10.png",
+                    alt: "Squeezebox 20x10",
+                    type: "Squeezebox20x10",
+                    width: 100,
+                    height: 200,
+                    menuItemWidth: 75,
+                    menuItemHeight: 100,
+                    price: 175
+                }
+            ]
         },
         {
-            name: "Cell 10x10",
-            title: "Блок 10x10",
-            image: "assets/blocks/C10x10.png",
-            alt: "Cell 10x10",
-            type: "Cell10x10",
-            width: 100,
-            height: 100,
-            menuItemWidth: 75,
-            menuItemHeight: 75,
-            price: 175
+            name: "Waves", title: "Waves", items: [
+                {
+                    name: "Wave 5x15 twin",
+                    title: "Блок 5x15 хвиля",
+                    image: "assets/blocks/W5x15twin.png",
+                    alt: "Wave 5x15 twin",
+                    type: "Wave5x15 twin",
+                    width: 50,
+                    height: 150,
+                    menuItemWidth: 40,
+                    menuItemHeight: 87.5,
+                    price: 225
+                },
+                {
+                    name: "Wave 5x25 twin",
+                    title: "Блок 5x25 хвиля",
+                    image: "assets/blocks/W5x25twin.png",
+                    alt: "Wave 5x25 twin",
+                    type: "Wave5x25 twin",
+                    width: 50,
+                    height: 250,
+                    menuItemWidth: 40,
+                    menuItemHeight: 112.5,
+                    price: 225
+                },
+                {
+                    name: "Wave 5x30",
+                    title: "Блок 5x30 хвиля",
+                    image: "assets/blocks/W5x30.png",
+                    alt: "Wave 5x30",
+                    type: "Wave5x30",
+                    width: 50,
+                    height: 300,
+                    menuItemWidth: 40,
+                    menuItemHeight: 125,
+                    price: 250
+                }
+            ]
         },
         {
-            name: "Cell 10x10 grid",
-            title: "Блок 10x10 грід",
-            image: "assets/blocks/C10x10grid.png",
-            alt: "Cell 10x10 grid",
-            type: "Cell10x10grid",
-            width: 100,
-            height: 100,
-            menuItemWidth: 75,
-            menuItemHeight: 75,
-            price: 225
-        },
-        {
-            name: "Cell 15x5",
-            title: "Блок 15x15",
-            image: "assets/blocks/C15x5.png",
-            alt: "Cell 15x5",
-            type: "Cell15x5",
-            width: 150,
-            height: 50,
-            menuItemWidth: 87.5,
-            menuItemHeight: 40,
-            price: 175
-        },
-        {
-            name: "Cell 20x10",
-            title: "Блок 20x10",
-            image: "assets/blocks/C20x10.png",
-            alt: "Cell 20x10",
-            type: "Cell20x10",
-            width: 200,
-            height: 100,
-            menuItemWidth: 100,
-            menuItemHeight: 75,
-            price: 200
-        },
-        {
-            name: "Cell 20x20 grid",
-            title: "Блок 20x20 грід",
-            image: "assets/blocks/C20x20grid.png",
-            alt: "Cell 20x20 grid",
-            type: "Cell20x20grid",
-            width: 200,
-            height: 200,
-            menuItemWidth: 100,
-            menuItemHeight: 100,
-            price: 250
-        },
-        {
-            name: "Squeezebox 5x5",
-            title: "Блок 5x5 гармошка",
-            image: "assets/blocks/S5x5.png",
-            alt: "Squeezebox 5x5",
-            type: "Squeezebox5x5",
-            width: 50,
-            height: 50,
-            menuItemWidth: 40,
-            menuItemHeight: 40,
-            price: 75
-        },
-        {
-            name: "Squeezebox 10x5",
-            title: "Блок 10x5 гармошка",
-            image: "assets/blocks/S10x5.png",
-            alt: "Squeezebox 10x5",
-            type: "Squeezebox10x5",
-            width: 50,
-            height: 100,
-            menuItemWidth: 40,
-            menuItemHeight: 75,
-            price: 150
-        },
-        {
-            name: "Squeezebox 10x10",
-            title: "Блок 10x10 гармошка",
-            image: "assets/blocks/S10x10.png",
-            alt: "Squeezebox 10x10",
-            type: "Squeezebox10x10",
-            width: 100,
-            height: 100,
-            menuItemWidth: 75,
-            menuItemHeight: 75,
-            price: 75
-        },
-        {
-            name: "Squeezebox 20x10",
-            title: "Блок 20x10 гармошка",
-            image: "assets/blocks/S20x10.png",
-            alt: "Squeezebox 20x10",
-            type: "Squeezebox20x10",
-            width: 100,
-            height: 200,
-            menuItemWidth: 75,
-            menuItemHeight: 100,
-            price: 175
-        },
-        {
-            name: "Wave 5x15 twin",
-            title: "Блок 5x15 хвиля",
-            image: "assets/blocks/W5x15twin.png",
-            alt: "Wave 5x15 twin",
-            type: "Wave5x15 twin",
-            width: 50,
-            height: 150,
-            menuItemWidth: 40,
-            menuItemHeight: 87.5,
-            price: 225
-        },
-        {
-            name: "Wave 5x25 twin",
-            title: "Блок 5x25 хвиля",
-            image: "assets/blocks/W5x25twin.png",
-            alt: "Wave 5x25 twin",
-            type: "Wave5x25 twin",
-            width: 50,
-            height: 250,
-            menuItemWidth: 40,
-            menuItemHeight: 112.5,
-            price: 225
-        },
-        {
-            name: "Wave 5x30",
-            title: "Блок 5x30 хвиля",
-            image: "assets/blocks/W5x30.png",
-            alt: "Wave 5x30",
-            type: "Wave5x30",
-            width: 50,
-            height: 300,
-            menuItemWidth: 40,
-            menuItemHeight: 125,
-            price: 250
+            name: "Grids", title: "Grids", items: [
+                {
+                    name: "Cell 20x20 grid",
+                    title: "Блок 20x20 грід",
+                    image: "assets/blocks/C20x20grid.png",
+                    alt: "Cell 20x20 grid",
+                    type: "Cell20x20grid",
+                    width: 200,
+                    height: 200,
+                    menuItemWidth: 100,
+                    menuItemHeight: 100,
+                    price: 250
+                },
+                {
+                    name: "Cell 10x10 grid",
+                    title: "Блок 10x10 грід",
+                    image: "assets/blocks/C10x10grid.png",
+                    alt: "Cell 10x10 grid",
+                    type: "Cell10x10grid",
+                    width: 100,
+                    height: 100,
+                    menuItemWidth: 75,
+                    menuItemHeight: 75,
+                    price: 225
+                }
+            ]
         }
     ];
     previewItems: Array<any> = [];
@@ -204,6 +223,15 @@ export class DesignerComponent implements OnInit {
     price = 0;
     priceInteger = 0;
     priceDecimal = 0;
+
+    ngOnInit(): void {
+        this.updateBoundingLines();
+    }
+
+    ngOnDestroy(): void {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
+    }
 
     checkout() {
         localStorage.setItem('checkout-items', JSON.stringify(this.previewItems));

@@ -9,3 +9,72 @@ html, body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.page {
+    padding: 50px 40px 75px;
+    text-align: center;
+    max-width: 1000px;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+
+    .page-header {
+        margin-bottom: 50px;
+        font-size: $page-title-font-size;
+        font-weight: $page-title-font-weight;
+        color: $black-title-color;
+    }
+
+    .page-section {
+        font-size: $bigger-font-size;
+        line-height: 22px;
+        font-family: 'Roboto';
+
+        .page-section-title {
+            font-size: $title-font-size;
+            font-weight: $big-font-weight;
+            color: $black-title-color;
+        }
+
+        .page-text-section {
+            margin-bottom: 20px;
+
+            a {
+                color: $black-title-color;
+                text-decoration: none;
+
+                &:hover {
+                    border-bottom: 2px solid $black-title-color;
+                }
+            }
+        }
+
+        .page-image {
+            margin-top: 50px;
+            width: 100%;
+        }
+    }
+}
+
+.default-submit-button {
+    display: block;
+    height: 2.5rem;
+    border-radius: 4rem;
+    cursor: pointer;
+    border: 0;
+    font-weight: 700;
+    background: #673ab7;
+    color: white;
+    padding: 0 2rem;
+    width: 100%;
+
+    &:disabled {
+        color: $black-color;
+        background-color: $gray1-color;
+        font-weight: $small-font-weight;
+        cursor: initial;
+    }
+}
