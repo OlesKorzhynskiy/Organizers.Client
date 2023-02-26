@@ -8,13 +8,22 @@ header {
     box-shadow: 0 0 1px rgb(0 0 0 / 20%);
 
     .header-menu {
-        list-style: none outside;
-        margin: 0;
-        padding-left: 0;
+        width: 100%;
+        padding: 0 15px;
+
+        ul {
+            width: 100%;
+            list-style: none outside;
+            padding-left: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
 
         .header-item, .header-logo {
             display: inline-block;
             cursor: pointer;
+            height: 30px;
 
             a {
                 color: $black-title-color;
@@ -33,7 +42,6 @@ header {
             margin-left: 30px;
             margin-right: 30px;
             box-sizing: border-box;
-            height: 30px;
             font-family: minerva-modern;
             outline: 0;
 
@@ -45,6 +53,46 @@ header {
             &:hover {
                 border-bottom: 2px solid $black-title-color;
             }
+        }
+    }
+
+    .desktop-header-menu {
+        display: flex;
+        align-items: center;
+
+        ul {
+            justify-content: center;
+            margin-left: 40px;
+        }
+
+        .cart-image {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+    }
+
+    .mobile-header-menu {
+        ul {
+            justify-content: space-between;
+            margin: 0 15px 0 15px;
+        }
+
+        .menu-image {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        .cart-image {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+
+        .header-logo {
+            margin-left: auto;
+            margin-right: auto;
         }
     }
 }
@@ -75,13 +123,6 @@ footer {
     }
 
     .footer-block {
-        display: flex;
-        justify-content: space-between;
-
-        > div {
-            width: 30%;
-        }
-
         .footer-email-block {
             font-weight: $big-font-weight;
             font-size: $bigger-font-size;
@@ -144,4 +185,43 @@ footer {
     font-family: minerva-modern;
     cursor: pointer;
     font-size: 30px;
+}
+
+@media (max-width: 992px) {
+    .content {
+        min-height: calc(100vh - 470px);
+    }
+
+    header .desktop-header-menu {
+        display: none;
+    }
+
+    footer {
+        height: 370px;
+        padding: 40px;
+
+        .footer-logo {
+            margin-bottom: 30px;
+        }
+
+        .footer-block {
+            text-align: center;
+
+            > div {
+                margin-bottom: $defaul-bottom-margin;
+            }
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    footer .footer-menu-items {
+        display: none;
+    }
+}
+
+@media (min-width: 993px) {
+    header .mobile-header-menu {
+        display: none;
+    }
 }

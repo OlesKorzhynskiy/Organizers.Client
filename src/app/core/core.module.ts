@@ -7,14 +7,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { LayoutComponent } from './layout/layout.component';
+import { MobileMenuComponent } from './layout/mobile-menu/mobile-menu.component';
 
 @NgModule({
     declarations: [
         ConfirmDialogComponent,
-        LayoutComponent
+        LayoutComponent,
+        MobileMenuComponent
     ],
     imports: [
         CommonModule,
@@ -24,6 +27,7 @@ import { LayoutComponent } from './layout/layout.component';
         MatFormFieldModule,
         MatInputModule,
         RouterModule,
+        MatSidenavModule,
         ToastrModule.forRoot()
     ],
     exports: [

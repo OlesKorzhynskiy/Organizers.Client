@@ -1,27 +1,27 @@
 import { CdkDragMove } from '@angular/cdk/drag-drop';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlockItem } from 'src/app/models/block-item';
 import { Point } from 'src/app/models/point';
 import { AllocationService } from 'src/app/components/designer/services/allocation.service';
 import { BoundingLineService } from './services/bounding-line.service';
 import { Subject, takeUntil } from 'rxjs';
+import { MatAccordion, MatExpansionPanel } from '@angular/material/expansion';
 
 @Component({
     selector: 'app-designer',
     templateUrl: './designer.component.html',
     styleUrls: ['./designer.component.scss']
 })
-export class DesignerComponent implements OnInit, OnDestroy {
+export class DesignerComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('previewDropZone', { read: ElementRef, static: true }) previewDropZone!: ElementRef;
+    @ViewChild(MatAccordion, { static: false }) matAccordion!: MatAccordion;
+    @ViewChildren(MatExpansionPanel) expansionPanels!: QueryList<MatExpansionPanel>;
 
     private readonly unsubscribe: Subject<void> = new Subject();
 
     constructor(private allocationService: AllocationService, private router: Router,
         private route: ActivatedRoute, private boundingLineService: BoundingLineService) {
-            this.route.queryParams.pipe(takeUntil(this.unsubscribe)).subscribe((params: any) => {
-                this.expandedGroupName = params['expandedGroupName'] ?? null;
-            });
     }
 
     expandedGroupName: string | null = null;
@@ -226,11 +226,43 @@ export class DesignerComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.updateBoundingLines();
+
+        this.route.queryParams.pipe(takeUntil(this.unsubscribe)).subscribe((params: any) => {
+            this.expandedGroupName = params['expandedGroupName'] ?? null;
+
+            if (this.expandedGroupName === null && window.innerWidth < 992) {
+                this.expandedGroupName = "Cells";
+            }
+        });
+    }
+
+    ngAfterViewInit(): void {
+        this.matAccordion.multi = window.innerWidth > 992;
     }
 
     ngOnDestroy(): void {
         this.unsubscribe.next();
         this.unsubscribe.complete();
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event: any) {
+        this.updateAccordionOnResize(event.target.innerWidth)
+    }
+
+    updateAccordionOnResize(screenWidth: number): void {
+        if (!this.matAccordion)
+            return;
+
+        if (screenWidth > 992) {
+            this.matAccordion.multi = true;
+            this.matAccordion.openAll();
+        } else {
+            this.matAccordion.multi = false;
+            this.matAccordion.closeAll();
+
+            this.expansionPanels.first.expanded = true;
+        }
     }
 
     checkout() {

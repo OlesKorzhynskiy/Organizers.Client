@@ -1,30 +1,47 @@
 <header>
-    <ul class="header-menu">
-        <li class="header-item"><a routerLink="/designer" routerLinkActive="active">Designer</a></li>
-        <li class="header-item"><a routerLink="/faq" routerLinkActive="active">FAQ</a></li>
 
-        <li class="header-logo"><a routerLink="/" routerLinkActive="active">That Organizer</a></li>
+    <div class="header-menu desktop-header-menu">
+        <ul>
+            <li class="header-item"><a routerLink="/designer" routerLinkActive="active">Designer</a></li>
+            <li class="header-item"><a routerLink="/faq" routerLinkActive="active">FAQ</a></li>
 
-        <li class="header-item"><a routerLink="/about-us" routerLinkActive="active">About Us</a></li>
-        <li class="header-item"><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
-    </ul>
+            <li class="header-logo"><a routerLink="/" routerLinkActive="active">That Organizer</a></li>
+
+            <li class="header-item"><a routerLink="/about-us" routerLinkActive="active">About Us</a></li>
+            <li class="header-item"><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
+        </ul>
+
+        <img class="cart-image" src="/assets/cart.png" alt="cart" routerLink="checkout" routerLinkActive="active">
+    </div>
+
+    <div class="header-menu mobile-header-menu">
+        <ul>
+            <img class="menu-image" src="/assets/menu.png" alt="close menu" (click)="mobileMenu.toggle()">
+
+            <li class="header-logo"><a routerLink="/" routerLinkActive="active">That Organizer</a></li>
+
+            <img class="cart-image" src="/assets/cart.png" alt="cart" routerLink="checkout" routerLinkActive="active">
+        </ul>
+    </div>
 </header>
 
-<div class="content">
+<app-mobile-menu></app-mobile-menu>
+
+<div class="content container-fluid">
     <ng-content></ng-content>
 </div>
 
-<footer>
+<footer class="container-fluid">
     <div class="footer-wrapper">
         <div class="footer-logo">
             <a routerLink="/" routerLinkActive="active">That Organizer</a>
         </div>
 
-        <div class="footer-block">
-            <div class="footer-email-block">
+        <div class="footer-block row">
+            <div class="footer-email-block col-12 col-md-4">
                 <span>oles.korzhynskiy@gmail.com</span>
             </div>
-            <div class="footer-menu-block">
+            <div class="footer-menu-block col-12 col-md-4">
                 <ul class="footer-menu-items">
                     <li><a routerLink="/designer" routerLinkActive="active">Designer</a></li>
                     <li><a routerLink="/faq" routerLinkActive="active">FAQ</a></li>
@@ -32,7 +49,7 @@
                     <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
                 </ul>
             </div>
-            <div class="footer-subscribe-block">
+            <div class="footer-subscribe-block col-12 col-md-4">
                 <p><strong>Sign up to save 15% off.</strong> Be the first to hear about new products, exciting news, and exclusive discounts.</p>
                 <form>
                     <div class="group-information" formGroupName="contact">

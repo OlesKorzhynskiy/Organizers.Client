@@ -1,0 +1,13 @@
+<mat-drawer-container>
+    <mat-drawer #drawer class="mobile-sidenav" mode="side">
+        <div class="drawer-header">
+            <img src="/assets/close.jpg" alt="close menu" (click)="toggle()">
+        </div>
+        <ul class="drawer-menu">
+            <li class="header-item" (click)="toggle()" routerLink="/designer" routerLinkActive="active"><a>Designer</a></li>
+            <li class="header-item" (click)="toggle()" routerLink="/faq" routerLinkActive="active"><a>FAQ</a></li>
+            <li class="header-item" (click)="toggle()" routerLink="/about-us" routerLinkActive="active"><a>About Us</a></li>
+            <li class="header-item" (click)="toggle()" routerLink="/contact" routerLinkActive="active"><a>Contact</a></li>
+        </ul>
+    </mat-drawer>
+</mat-drawer-container>

@@ -5,6 +5,7 @@
     padding-left: 70px;
     position: relative;
     margin: 10px;
+    width: 100%;
 
     .designer-checkout {
         position: absolute;
@@ -21,14 +22,12 @@
             font-weight: $big-font-weight;
 
             .currency {
-                bottom: -0.26em;
                 font-size: $bigger-font-size;
                 position: relative;
                 margin-right: 3px;
             }
 
             .decimal-part {
-                bottom: -0.26em;
                 font-size: $bigger-font-size;
                 position: relative;
             }
@@ -71,8 +70,6 @@
         background-color: white;
         outline: none;
         display: block;
-        align-items: normal;
-        flex-direction: column;
         height: 100%;
         position: relative;
         width: 320px;
@@ -222,4 +219,44 @@
     width: auto;
     height: 80px;
     max-height: 100%;
+}
+
+@media (max-width: 992px) {
+    .designer .designer-checkout {
+        right: 10px;
+    }
+
+    .dragging-zone {
+        flex-direction: column;
+        height: 1034px;
+
+        .items-preview-block {
+            width: 100%;
+        }
+
+        .items-menu-block {
+            width: 100%;
+            top: 0;
+
+            .items-menu-title {
+                display: none;
+            }
+
+            .menu-items-accordion {
+                width: calc(100% + 70px);
+                margin-left: -70px;
+                overflow: hidden;
+                height: 417px;
+
+                .menu-item-group {
+                    overflow: auto;
+                    flex-wrap: unset;
+
+                    .menu-item-wrapper {
+                        width: unset;
+                    }
+                }
+            }
+        }
+    }
 }

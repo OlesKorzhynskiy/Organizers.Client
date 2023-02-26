@@ -1,0 +1,60 @@
+@import "variables.scss";
+
+.mat-drawer-container {
+    z-index: 150;
+}
+
+.mobile-sidenav {
+    position: fixed;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-width: 250px;
+    box-shadow: 0 0 150px #0000001a;
+
+    .drawer-header {
+        height: 70px;
+        padding: 20px;
+        text-align: end;
+
+        img {
+            height: 48px;
+            width: 48px;
+            cursor: pointer;
+        }
+    }
+
+    .drawer-menu {
+        list-style: none outside;
+        margin-top: 0;
+        padding-left: 0;
+
+        li {
+            margin-bottom: 0.25em;
+            margin: 0 15px;
+            padding: 15px 0;
+            font-size: $menu-font-size;
+            cursor: pointer;
+            height: 50px;
+
+            a {
+                color: $black-title-color;
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .mobile-sidenav {
+        display: none;
+    }
+}
+
+@media (max-width: 350px) {
+    .mobile-sidenav {
+        min-width: 100%;
+    }
+}

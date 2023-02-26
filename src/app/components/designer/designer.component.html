@@ -29,9 +29,9 @@
         <div class="items-menu-block">
             <h2 class="items-menu-title">Available items</h2>
 
-            <mat-accordion multi class="menu-items-accordion" [ngClass]="{dragging: draggingMode, hovered: menuItemsHovered}" cdkDropList #menuList="cdkDropList"
+            <mat-accordion class="menu-items-accordion" [ngClass]="{dragging: draggingMode, hovered: menuItemsHovered}" cdkDropList #menuList="cdkDropList"
                 [cdkDropListConnectedTo]="[previewList]" (cdkDropListDropped)="dropOnMenuList($event)" id="menu-items-drop-list" (cdkDropListEntered)="menuListEntered()" (cdkDropListExited)="menuListExited()">
-                <mat-expansion-panel *ngFor="let group of menuGroups" [expanded]="expandedGroupName == null || expandedGroupName == group.name">
+                <mat-expansion-panel *ngFor="let group of menuGroups" [expanded]="expandedGroupName == null || expandedGroupName == group.name" [id]="group.name">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             {{ group.title }}
@@ -68,4 +68,3 @@
         </div>
     </div>
 </div>
-

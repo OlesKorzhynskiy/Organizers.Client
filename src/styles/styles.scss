@@ -78,3 +78,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
         cursor: initial;
     }
 }
+
+@media (max-width: 767px) {
+    .page {
+        padding: 50px 20px 75px;
+    }
+}

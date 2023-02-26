@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {DragDropModule} from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -22,31 +22,31 @@ import { ContactComponent } from './components/contact/contact.component';
 import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    DesignerComponent,
-    BoundingLinesComponent,
-    CheckoutComponent,
-    HomeComponent,
-    AboutUsComponent,
-    FaqComponent,
-    ContactComponent
-  ],
-  imports: [
-    BrowserModule,
-    DragDropModule,
-    BrowserAnimationsModule,
-    SharedModule,
-    CoreModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgxUsefulSwiperModule,
-    ApiModule.forRoot({ rootUrl: environment.gatewayUrl, paymentRootUrl: environment.paymentUrl }),
-    RouterModule.forRoot(APP_ROUTES)
-  ],
-  providers: [
-    { provide: MAT_RADIO_DEFAULT_OPTIONS, useValue: { color: 'primary' } }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        DesignerComponent,
+        BoundingLinesComponent,
+        CheckoutComponent,
+        HomeComponent,
+        AboutUsComponent,
+        FaqComponent,
+        ContactComponent
+    ],
+    imports: [
+        BrowserModule,
+        DragDropModule,
+        BrowserAnimationsModule,
+        SharedModule,
+        CoreModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxUsefulSwiperModule,
+        ApiModule.forRoot({ rootUrl: environment.gatewayUrl, paymentRootUrl: environment.paymentUrl }),
+        RouterModule.forRoot(APP_ROUTES)
+    ],
+    providers: [
+        { provide: MAT_RADIO_DEFAULT_OPTIONS, useValue: { color: 'primary' } }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
