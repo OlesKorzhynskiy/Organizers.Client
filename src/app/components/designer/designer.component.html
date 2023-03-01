@@ -1,4 +1,12 @@
 <div class="designer">
+    <div class="designer-buttons">
+        <button (click)="increaseBlockSizeRatio()" [disabled]="blockSizeRatio >= 1.5">+</button>
+        <button (click)="decreaseBlockSizeRatio()" [disabled]="blockSizeRatio <= 0.5">-</button>
+        <button (click)="resetPreviewItems()" [disabled]="previewItems.length == 0">
+            <img src="assets/reset.png" alt="reset" *ngIf="previewItems.length != 0">
+            <img src="assets/reset_disabled.png" alt="reset" *ngIf="previewItems.length == 0">
+        </button>
+    </div>
     <div class="designer-checkout">
         <span class="price">
             <span class="currency">₴</span>
@@ -13,8 +21,9 @@
             <app-bounding-lines></app-bounding-lines>
 
             <div [id]="'block-item-' + i" class="block-item" *ngFor="let item of previewItems; let i = index" #previewItem cdkDragBoundary=".dragging-zone" cdkDrag [cdkDragData]="item"
-                [style.z-index]="i" [style.display]="item.hidden ? 'none' : 'flex'" (mousedown)="onMouseDown($event, previewItem)" (click)="rotate(item)"
-                (cdkDragStarted)="dragStarted(item)" (cdkDragDropped)="dragStopped()" (cdkDragMoved)="moved($event, item)">
+                [style.z-index]="i" [style.display]="item.hidden ? 'none' : 'flex'" (mousedown)="onMouseDown($event, previewItem)" (touchstart)="onTouchStart($event, previewItem)" (click)="rotate(item)"
+                (cdkDragStarted)="dragStarted(item)" (cdkDragDropped)="dragStopped()" (cdkDragMoved)="moved($event, item)"
+                [style.top]="item.placholderTop" [style.left]="item.placholderLeft">
 
                 <img class="block-item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.width + 'px'" [style.height]="item.height + 'px'">
 
@@ -41,7 +50,7 @@
                     <div class="menu-item-group">
                         <div class="menu-item-wrapper" *ngFor="let item of group.items" [ngClass]="{'selected-item': draggingItem?.type == item.type}">
                             <div class="menu-item" #menuItem cdkDragBoundary=".dragging-zone" cdkDrag [cdkDragData]="item" (cdkDragMoved)="moved($event, item)"
-                                (mousedown)="onMouseDown($event, menuItem)" (cdkDragStarted)="dragStarted(item)" (cdkDragDropped)="dragStopped()">
+                                (mousedown)="onMouseDown($event, menuItem)" (touchstart)="onTouchStart($event, menuItem)" (cdkDragStarted)="dragStarted(item)" (cdkDragDropped)="dragStopped()">
 
                                 <img class="block-item-image" [src]="item.image" [alt]="item.alt" [style.width]="item.menuItemWidth + 'px'" [style.height]="item.menuItemHeight + 'px'">
 

@@ -7,6 +7,7 @@ import { Point } from "../../../models/point";
 })
 export class AllocationService {
     sideMargin: number = 50;
+    blockSizeRatio: number = 1;
 
     findClosestPosition(items: BlockItem[], item: BlockItem, previewZoneWidth: number, previewZoneHeight: number): Point | null {
         let closestPoints: any[] = [];

@@ -86,7 +86,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
 
     initOrderedItems(): void {
-        let storageItems = localStorage.getItem('checkout-items');
+        let storageItems = localStorage.getItem('preview-items');
         let items = storageItems ? JSON.parse(storageItems): [];
 
         this.items = items.reduce((group: any[], item: any) => {
@@ -95,7 +95,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
                 groupItem.quantity++;
                 groupItem.price += item.price;
             } else {
-                groupItem = { name: item.name, image: item.image, alt: item.alt, title: item.title, price: item.price, quantity: 1 };
+                let image = item.image.replace('/rotated', '');
+                groupItem = { name: item.name, image: image, alt: item.alt, title: item.title, price: item.price, quantity: 1 };
                 group.push(groupItem);
             }
 

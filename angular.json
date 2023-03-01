@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "boxy": {
+        "organizers": {
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
@@ -17,7 +17,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/boxy",
+                        "outputPath": "dist/organizers",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
@@ -81,10 +81,10 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "browserTarget": "boxy:build:production"
+                            "browserTarget": "organizers:build:production"
                         },
                         "development": {
-                            "browserTarget": "boxy:build:development"
+                            "browserTarget": "organizers:build:development"
                         }
                     },
                     "options": {
@@ -97,7 +97,7 @@
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "boxy:build"
+                        "browserTarget": "organizers:build"
                     }
                 },
                 "test": {

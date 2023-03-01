@@ -6,6 +6,38 @@
     position: relative;
     margin: 10px;
     width: 100%;
+    overflow-x: hidden;
+
+    .designer-buttons {
+        position: absolute;
+        display: flex;
+        left: 0;
+        top: 10px;
+
+        button {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 50%;
+            border: 1px solid $main-color;
+            color: $main-color;
+            background-color: white;
+            cursor: pointer;
+            font-size: $title-font-size;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            img {
+                width: 20px;
+            }
+
+            &:disabled {
+                border-color: $gray-text-color;
+                color: $gray-text-color;
+            }
+        }
+    }
 
     .designer-checkout {
         position: absolute;
@@ -222,13 +254,17 @@
 }
 
 @media (max-width: 992px) {
-    .designer .designer-checkout {
-        right: 10px;
+    .designer {
+        padding-left: 45px;
+
+        .designer-checkout {
+            right: 10px;
+        }
     }
 
     .dragging-zone {
         flex-direction: column;
-        height: 1034px;
+        height: 100%;
 
         .items-preview-block {
             width: 100%;
@@ -246,7 +282,7 @@
                 width: calc(100% + 70px);
                 margin-left: -70px;
                 overflow: hidden;
-                height: 417px;
+                height: 100%;
 
                 .menu-item-group {
                     overflow: auto;
@@ -257,6 +293,25 @@
                     }
                 }
             }
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .dragging-zone .items-preview-block {
+        min-height: 400px;
+    }
+}
+
+@media (max-width: 460px) {
+    .designer .designer-checkout {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+
+        .price {
+            margin-right: 0;
+            margin-top: $defaul-bottom-margin;
         }
     }
 }

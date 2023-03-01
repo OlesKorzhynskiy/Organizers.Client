@@ -81,6 +81,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 @media (max-width: 767px) {
     .page {
-        padding: 50px 20px 75px;
+        padding: 20px 10px;
+
+        .page-header {
+            margin-bottom: 35px;
+        }
     }
 }

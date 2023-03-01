@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AllocationService } from '../services/allocation.service';
 import { BoundingLineService } from '../services/bounding-line.service';
 
 @Component({
@@ -27,8 +28,18 @@ export class BoundingLinesComponent implements OnInit {
         return this.boundingLineService.topLeftPoint != null;
     }
 
-    constructor(private boundingLineService: BoundingLineService) { }
+    get blockSizeRatio(): number {
+        return this.allocationService.blockSizeRatio;
+    }
+
+    get boudingLinePadding(): number {
+        return window.innerWidth > 992 ? 30 : 25;
+    }
+
+    constructor(private boundingLineService: BoundingLineService, private allocationService: AllocationService) { }
 
     ngOnInit(): void {
     }
+
+
 }

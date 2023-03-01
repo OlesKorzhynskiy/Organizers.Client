@@ -1,13 +1,13 @@
 <div class="bounding-lines" *ngIf="showBoundingLines">
-    <div class="bounding-line top-bounding-line" [style.width]="width + 'px'" [style.left]="left + 'px'" [style.top]="(top - 30) + 'px'">
+    <div class="bounding-line top-bounding-line" [style.width]="width + 'px'" [style.left]="left + 'px'" [style.top]="(top - boudingLinePadding) + 'px'">
         <div class="bounding-line-edge left-edge"></div>
         <div class="bounding-line-edge right-edge"></div>
-        <span class="bounding-line-size">{{ width / 10 }} cm</span>
+        <span class="bounding-line-size">{{ width / (10 * blockSizeRatio) | number:'1.0-1' }} cm</span>
     </div>
 
-    <div class="bounding-line left-bounding-line" [style.height]="height + 'px'" [style.left]="(left - 30) + 'px'" [style.top]="top + 'px'">
+    <div class="bounding-line left-bounding-line" [style.height]="height + 'px'" [style.left]="(left - boudingLinePadding) + 'px'" [style.top]="top + 'px'">
         <div class="bounding-line-edge top-edge"></div>
         <div class="bounding-line-edge bottom-edge"></div>
-        <span class="bounding-line-size">{{ height / 10 }} cm</span>
+        <span class="bounding-line-size">{{ height / (10 * blockSizeRatio) | number:'1.0-1' }} cm</span>
     </div>
 </div>
